@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: b583188deff18404a809a0b2096e5e4a
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 258146
+  packageName: 3D Ground Platforms | Platform Terrain Set | Floating Islandas
+  packageVersion: 1.0
+  assetPath: Assets/StarterAssets/InputSystem/PlayerInputs.cs
+  uploadId: 690881
