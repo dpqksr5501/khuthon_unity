@@ -1,0 +1,51 @@
+.wide-panel {
+    width: 800px;
+}
+
+.image-grid {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-bottom: 25px;
+}
+
+.image-slot {
+    width: 180px;
+    height: 180px;
+    margin: 10px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    overflow: hidden;
+    border-width: 2px;
+    border-color: transparent;
+    transition-duration: 0.2s;
+}
+
+.image-slot:hover {
+    border-color: rgba(99, 102, 241, 0.5);
+    scale: 1.05;
+}
+
+.image-slot.selected {
+    border-color: #6366f1;
+    background-color: rgba(99, 102, 241, 0.1);
+}
+
+.image-preview {
+    flex-grow: 1;
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+.selection-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(99, 102, 241, 0.2);
+    display: none;
+}
+
+.selected .selection-overlay {
+    display: flex;
+}

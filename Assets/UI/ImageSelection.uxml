@@ -1,0 +1,32 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project:/Assets/UI/ImageSelection.uss" />
+    <ui:VisualElement name="root" class="bg-overlay">
+        <ui:VisualElement name="panel" class="glass-panel wide-panel">
+            <ui:Label text="어떤 순간을 소환할까요?" class="title-text" />
+            
+            <ui:VisualElement name="image-grid" class="image-grid">
+                <ui:VisualElement name="slot-0" class="image-slot">
+                    <ui:VisualElement name="img-0" class="image-preview" />
+                    <ui:VisualElement name="overlay-0" class="selection-overlay" />
+                </ui:VisualElement>
+                <ui:VisualElement name="slot-1" class="image-slot">
+                    <ui:VisualElement name="img-1" class="image-preview" />
+                    <ui:VisualElement name="overlay-1" class="selection-overlay" />
+                </ui:VisualElement>
+                <ui:VisualElement name="slot-2" class="image-slot">
+                    <ui:VisualElement name="img-2" class="image-preview" />
+                    <ui:VisualElement name="overlay-2" class="selection-overlay" />
+                </ui:VisualElement>
+                <ui:VisualElement name="slot-3" class="image-slot">
+                    <ui:VisualElement name="img-3" class="image-preview" />
+                    <ui:VisualElement name="overlay-3" class="selection-overlay" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+            <ui:VisualElement class="button-row">
+                <ui:Button text="이것으로 소환" name="confirm-button" class="btn btn-primary" />
+                <ui:Button text="다시 검색" name="cancel-button" class="btn btn-secondary" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

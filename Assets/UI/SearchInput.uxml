@@ -1,0 +1,24 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project:/Assets/UI/SearchInput.uss" />
+    <ui:VisualElement name="root" class="bg-overlay">
+        <ui:VisualElement name="panel" class="glass-panel">
+            <ui:Label text="시대의 조각 찾기" name="title" class="title-text" />
+            
+            <ui:VisualElement class="input-row">
+                <ui:DropdownField label="연도" name="year-dropdown" class="dropdown" />
+                <ui:DropdownField label="분기" name="quarter-dropdown" class="dropdown" />
+            </ui:VisualElement>
+
+            <ui:VisualElement class="input-row">
+                <ui:DropdownField label="카테고리" name="category-dropdown" class="dropdown" />
+            </ui:VisualElement>
+
+            <ui:TextField label="검색어" name="search-field" class="text-field" placeholder-text="무엇을 소환할까요?" />
+
+            <ui:VisualElement class="button-row">
+                <ui:Button text="소환하기" name="submit-button" class="btn btn-primary" />
+                <ui:Button text="취소" name="cancel-button" class="btn btn-secondary" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
