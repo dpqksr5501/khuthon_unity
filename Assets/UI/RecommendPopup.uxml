@@ -1,0 +1,5 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="recommend-container" style="position: absolute; width: 120px; height: 40px; justify-content: center; align-items: center;">
+        <ui:Button text="👍 추천" name="recommend-button" style="width: 100%; height: 100%; background-color: rgba(99, 102, 241, 0.9); color: white; border-radius: 20px; border-width: 0; font-size: 16px; -unity-font-style: bold;" />
+    </ui:VisualElement>
+</ui:UXML>
