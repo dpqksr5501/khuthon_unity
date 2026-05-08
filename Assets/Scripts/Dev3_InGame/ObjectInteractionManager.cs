@@ -173,6 +173,9 @@ namespace Khuthon
                 
                 RefreshRecommendCount(handle);
                 SetHighlight(handle.gameObject, true);
+                
+                // BGM 재생 시작
+                handle.PlayBGM();
             }
         }
 
@@ -187,6 +190,8 @@ namespace Khuthon
             if (_focusedObject != null)
             {
                 SetHighlight(_focusedObject, false);
+                // BGM 정지
+                if (_focusedHandle != null) _focusedHandle.StopBGM();
             }
 
             _recommendPopup = null;
