@@ -481,6 +481,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4772fa5771355d146bd86632c3412983, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Khuthon.InGame.PlacedObjectHandle
+  objectName: "\uC0C8 \uC624\uBE0C\uC81D\uD2B8"
+  description: "\uC774 \uC624\uBE0C\uC81D\uD2B8\uC5D0 \uB300\uD55C \uC124\uBA85\uC785\uB2C8\uB2E4."
+  bgmPath: 
+  period: 2024
+  modelUrl: 
+  userId: player_1
+  firebaseKey: 
 --- !u!64 &112279610
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -836,6 +843,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4772fa5771355d146bd86632c3412983, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Khuthon.InGame.PlacedObjectHandle
+  objectName: "\uC0C8 \uC624\uBE0C\uC81D\uD2B8"
+  description: "\uC774 \uC624\uBE0C\uC81D\uD2B8\uC5D0 \uB300\uD55C \uC124\uBA85\uC785\uB2C8\uB2E4."
+  bgmPath: 
+  period: 2024
+  modelUrl: 
+  userId: player_1
+  firebaseKey: 
 --- !u!64 &183679369
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1111,6 +1125,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4772fa5771355d146bd86632c3412983, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Khuthon.InGame.PlacedObjectHandle
+  objectName: "\uC0C8 \uC624\uBE0C\uC81D\uD2B8"
+  description: "\uC774 \uC624\uBE0C\uC81D\uD2B8\uC5D0 \uB300\uD55C \uC124\uBA85\uC785\uB2C8\uB2E4."
+  bgmPath: 
+  period: 2024
+  modelUrl: 
+  userId: player_1
+  firebaseKey: 
 --- !u!64 &253616771
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1513,6 +1534,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4772fa5771355d146bd86632c3412983, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Khuthon.InGame.PlacedObjectHandle
+  objectName: "\uC0C8 \uC624\uBE0C\uC81D\uD2B8"
+  description: "\uC774 \uC624\uBE0C\uC81D\uD2B8\uC5D0 \uB300\uD55C \uC124\uBA85\uC785\uB2C8\uB2E4."
+  bgmPath: 
+  period: 2024
+  modelUrl: 
+  userId: player_1
+  firebaseKey: 
 --- !u!64 &389351362
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1697,6 +1725,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4772fa5771355d146bd86632c3412983, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Khuthon.InGame.PlacedObjectHandle
+  objectName: "\uC0C8 \uC624\uBE0C\uC81D\uD2B8"
+  description: "\uC774 \uC624\uBE0C\uC81D\uD2B8\uC5D0 \uB300\uD55C \uC124\uBA85\uC785\uB2C8\uB2E4."
+  bgmPath: 
+  period: 2024
+  modelUrl: 
+  userId: player_1
+  firebaseKey: 
 --- !u!1 &407591626 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9000428836352379503, guid: ba79c373b9b10844db03067df41940a6, type: 3}
@@ -1801,6 +1836,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4772fa5771355d146bd86632c3412983, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Khuthon.InGame.PlacedObjectHandle
+  objectName: "\uC0C8 \uC624\uBE0C\uC81D\uD2B8"
+  description: "\uC774 \uC624\uBE0C\uC81D\uD2B8\uC5D0 \uB300\uD55C \uC124\uBA85\uC785\uB2C8\uB2E4."
+  bgmPath: 
+  period: 2024
+  modelUrl: 
+  userId: player_1
+  firebaseKey: 
 --- !u!64 &450058163
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2015,6 +2057,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4772fa5771355d146bd86632c3412983, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Khuthon.InGame.PlacedObjectHandle
+  objectName: "\uC0C8 \uC624\uBE0C\uC81D\uD2B8"
+  description: "\uC774 \uC624\uBE0C\uC81D\uD2B8\uC5D0 \uB300\uD55C \uC124\uBA85\uC785\uB2C8\uB2E4."
+  bgmPath: 
+  period: 2024
+  modelUrl: 
+  userId: player_1
+  firebaseKey: 
 --- !u!64 &776892844
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2081,6 +2130,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4772fa5771355d146bd86632c3412983, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Khuthon.InGame.PlacedObjectHandle
+  objectName: "\uC0C8 \uC624\uBE0C\uC81D\uD2B8"
+  description: "\uC774 \uC624\uBE0C\uC81D\uD2B8\uC5D0 \uB300\uD55C \uC124\uBA85\uC785\uB2C8\uB2E4."
+  bgmPath: 
+  period: 2024
+  modelUrl: 
+  userId: player_1
+  firebaseKey: 
 --- !u!64 &782408032
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2147,6 +2203,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4772fa5771355d146bd86632c3412983, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Khuthon.InGame.PlacedObjectHandle
+  objectName: "\uC0C8 \uC624\uBE0C\uC81D\uD2B8"
+  description: "\uC774 \uC624\uBE0C\uC81D\uD2B8\uC5D0 \uB300\uD55C \uC124\uBA85\uC785\uB2C8\uB2E4."
+  bgmPath: 
+  period: 2024
+  modelUrl: 
+  userId: player_1
+  firebaseKey: 
 --- !u!64 &808059694
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2213,6 +2276,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4772fa5771355d146bd86632c3412983, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Khuthon.InGame.PlacedObjectHandle
+  objectName: PSY
+  description: "2012\uB144 \uC804\uC138\uACC4\uB97C \uB9D0\uC5D0 \uD0DC\uC6CC\uBC84\uB9B0
+    \uC804\uC124\uC758 \uB178\uB798! "
+  bgmPath: "C:\\Users\\insue\\Documents\\GitHub\\khuthon_unity\\Assets\\Sounds\\\uAC15\uB0A8
+    \uC2A4\uD0C0\uC77C.mp3"
+  period: 2024
+  modelUrl: 
+  userId: player_1
+  firebaseKey: 
 --- !u!64 &822291351
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2418,6 +2490,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4772fa5771355d146bd86632c3412983, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Khuthon.InGame.PlacedObjectHandle
+  objectName: "\uC0C8 \uC624\uBE0C\uC81D\uD2B8"
+  description: "\uC774 \uC624\uBE0C\uC81D\uD2B8\uC5D0 \uB300\uD55C \uC124\uBA85\uC785\uB2C8\uB2E4."
+  bgmPath: 
+  period: 2024
+  modelUrl: 
+  userId: player_1
+  firebaseKey: 
 --- !u!64 &1009457609
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2484,6 +2563,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4772fa5771355d146bd86632c3412983, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Khuthon.InGame.PlacedObjectHandle
+  objectName: "\uC0C8 \uC624\uBE0C\uC81D\uD2B8"
+  description: "\uC774 \uC624\uBE0C\uC81D\uD2B8\uC5D0 \uB300\uD55C \uC124\uBA85\uC785\uB2C8\uB2E4."
+  bgmPath: 
+  period: 2024
+  modelUrl: 
+  userId: player_1
+  firebaseKey: 
 --- !u!64 &1016487019
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2885,6 +2971,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4772fa5771355d146bd86632c3412983, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Khuthon.InGame.PlacedObjectHandle
+  objectName: "\uC0C8 \uC624\uBE0C\uC81D\uD2B8"
+  description: "\uC774 \uC624\uBE0C\uC81D\uD2B8\uC5D0 \uB300\uD55C \uC124\uBA85\uC785\uB2C8\uB2E4."
+  bgmPath: 
+  period: 2024
+  modelUrl: 
+  userId: player_1
+  firebaseKey: 
 --- !u!64 &1151640524
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -3688,6 +3781,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4772fa5771355d146bd86632c3412983, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Khuthon.InGame.PlacedObjectHandle
+  objectName: "\uC0C8 \uC624\uBE0C\uC81D\uD2B8"
+  description: "\uC774 \uC624\uBE0C\uC81D\uD2B8\uC5D0 \uB300\uD55C \uC124\uBA85\uC785\uB2C8\uB2E4."
+  bgmPath: 
+  period: 2024
+  modelUrl: 
+  userId: player_1
+  firebaseKey: 
 --- !u!64 &1384343928
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -3906,6 +4006,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4772fa5771355d146bd86632c3412983, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Khuthon.InGame.PlacedObjectHandle
+  objectName: "\uC0C8 \uC624\uBE0C\uC81D\uD2B8"
+  description: "\uC774 \uC624\uBE0C\uC81D\uD2B8\uC5D0 \uB300\uD55C \uC124\uBA85\uC785\uB2C8\uB2E4."
+  bgmPath: 
+  period: 2024
+  modelUrl: 
+  userId: player_1
+  firebaseKey: 
 --- !u!64 &1551399470
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -3972,6 +4079,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4772fa5771355d146bd86632c3412983, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Khuthon.InGame.PlacedObjectHandle
+  objectName: "\uC0C8 \uC624\uBE0C\uC81D\uD2B8"
+  description: "\uC774 \uC624\uBE0C\uC81D\uD2B8\uC5D0 \uB300\uD55C \uC124\uBA85\uC785\uB2C8\uB2E4."
+  bgmPath: 
+  period: 2024
+  modelUrl: 
+  userId: player_1
+  firebaseKey: 
 --- !u!64 &1556419121
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -4330,6 +4444,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4772fa5771355d146bd86632c3412983, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Khuthon.InGame.PlacedObjectHandle
+  objectName: "\uC0C8 \uC624\uBE0C\uC81D\uD2B8"
+  description: "\uC774 \uC624\uBE0C\uC81D\uD2B8\uC5D0 \uB300\uD55C \uC124\uBA85\uC785\uB2C8\uB2E4."
+  bgmPath: 
+  period: 2024
+  modelUrl: 
+  userId: player_1
+  firebaseKey: 
 --- !u!64 &1861444652
 MeshCollider:
   m_ObjectHideFlags: 0
