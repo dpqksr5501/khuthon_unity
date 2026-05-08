@@ -669,11 +669,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0749bc0eba42a6a43ba2fe3d97e6f118, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TMPFloatingAnimator
-  enableColorChange: 1
-  colorChangeSpeed: 0.3
+  animationSpeed: 0.5
   color1: {r: 1, g: 1, b: 1, a: 1}
   color2: {r: 0.4, g: 0.4, b: 0.4, a: 1}
-  sparkleSpeed: 2
   minAlpha: 0.3
   maxAlpha: 1
 --- !u!4 &29761961 stripped
@@ -919,27 +917,27 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 49501f0b6acd5c7478521f64a647e655, type: 3}
       propertyPath: m_LocalScale.x
-      value: 2000
+      value: 600
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49501f0b6acd5c7478521f64a647e655, type: 3}
       propertyPath: m_LocalScale.y
-      value: 2000
+      value: 600
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49501f0b6acd5c7478521f64a647e655, type: 3}
       propertyPath: m_LocalScale.z
-      value: 2000
+      value: 600
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49501f0b6acd5c7478521f64a647e655, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.1
+      value: -29.78
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49501f0b6acd5c7478521f64a647e655, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 42.9
+      value: 28.88
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49501f0b6acd5c7478521f64a647e655, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.5
+      value: 0.66
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49501f0b6acd5c7478521f64a647e655, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1619,11 +1617,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0749bc0eba42a6a43ba2fe3d97e6f118, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TMPFloatingAnimator
-  enableColorChange: 1
-  colorChangeSpeed: 0.3
+  animationSpeed: 0.5
   color1: {r: 1, g: 1, b: 1, a: 1}
   color2: {r: 0.4, g: 0.4, b: 0.4, a: 1}
-  sparkleSpeed: 2
   minAlpha: 0.3
   maxAlpha: 1
 --- !u!1001 &219183691
@@ -1912,6 +1908,79 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3fa0c5159121ce540bf6ff9476ead561, type: 3}
   m_PrefabInstance: {fileID: 1600469287}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &389936352
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 19e0d9276db1c8344b621d882c9b2932, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 3500
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 19e0d9276db1c8344b621d882c9b2932, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 3500
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 19e0d9276db1c8344b621d882c9b2932, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 3500
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 19e0d9276db1c8344b621d882c9b2932, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -501.83423
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 19e0d9276db1c8344b621d882c9b2932, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 89.619385
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 19e0d9276db1c8344b621d882c9b2932, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -116.25195
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 19e0d9276db1c8344b621d882c9b2932, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.72839487
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 19e0d9276db1c8344b621d882c9b2932, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.5271381
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 19e0d9276db1c8344b621d882c9b2932, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.09353769
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 19e0d9276db1c8344b621d882c9b2932, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.42757118
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 19e0d9276db1c8344b621d882c9b2932, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -57.986
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 19e0d9276db1c8344b621d882c9b2932, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -36.39
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 19e0d9276db1c8344b621d882c9b2932, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 81.472
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 19e0d9276db1c8344b621d882c9b2932, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 19e0d9276db1c8344b621d882c9b2932, type: 3}
+      propertyPath: m_Name
+      value: ak
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 19e0d9276db1c8344b621d882c9b2932, type: 3}
 --- !u!4 &391644741 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3d17b13b7a4fccc4d9dc1f9d3fca6adf, type: 3}
@@ -2436,27 +2505,27 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: b1bc570f9f2f5284c9f52bf85a9de710, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1000
+      value: 1500
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b1bc570f9f2f5284c9f52bf85a9de710, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1000
+      value: 1500
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b1bc570f9f2f5284c9f52bf85a9de710, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1000
+      value: 1500
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b1bc570f9f2f5284c9f52bf85a9de710, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -16.24
+      value: -19.71
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b1bc570f9f2f5284c9f52bf85a9de710, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 35.01
+      value: 36.9
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b1bc570f9f2f5284c9f52bf85a9de710, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.34
+      value: -18.64
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b1bc570f9f2f5284c9f52bf85a9de710, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2854,31 +2923,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7d95845081600d449b520fe8cd8c94c5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1
+      value: 1.0028598
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7d95845081600d449b520fe8cd8c94c5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 52.8
+      value: 52.799995
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7d95845081600d449b520fe8cd8c94c5, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.6
+      value: -0.5977936
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7d95845081600d449b520fe8cd8c94c5, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.0059357146
+      value: 0.020570956
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7d95845081600d449b520fe8cd8c94c5, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.0059357146
+      value: -0.020570967
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7d95845081600d449b520fe8cd8c94c5, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.707082
+      value: 0.7068076
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7d95845081600d449b520fe8cd8c94c5, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.7070818
+      value: 0.70680743
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7d95845081600d449b520fe8cd8c94c5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2890,7 +2959,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7d95845081600d449b520fe8cd8c94c5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 180.962
+      value: 176.666
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7d95845081600d449b520fe8cd8c94c5, type: 3}
       propertyPath: m_ConstrainProportionsScale
@@ -3938,11 +4007,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0749bc0eba42a6a43ba2fe3d97e6f118, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TMPFloatingAnimator
-  enableColorChange: 1
-  colorChangeSpeed: 0.3
+  animationSpeed: 0.5
   color1: {r: 1, g: 1, b: 1, a: 1}
   color2: {r: 0.4, g: 0.4, b: 0.4, a: 1}
-  sparkleSpeed: 2
   minAlpha: 0.3
   maxAlpha: 1
 --- !u!1001 &898608372
@@ -4242,7 +4309,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cd7ac7a424848de41a0ee892bd1ba334, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.7
+      value: 5.3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cd7ac7a424848de41a0ee892bd1ba334, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4250,7 +4317,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cd7ac7a424848de41a0ee892bd1ba334, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.3
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cd7ac7a424848de41a0ee892bd1ba334, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4710,11 +4777,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0749bc0eba42a6a43ba2fe3d97e6f118, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TMPFloatingAnimator
-  enableColorChange: 1
-  colorChangeSpeed: 0.3
+  animationSpeed: 0.5
   color1: {r: 1, g: 1, b: 1, a: 1}
   color2: {r: 0.4, g: 0.4, b: 0.4, a: 1}
-  sparkleSpeed: 2
   minAlpha: 0.3
   maxAlpha: 1
 --- !u!1 &1084470824
@@ -4913,11 +4978,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0749bc0eba42a6a43ba2fe3d97e6f118, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TMPFloatingAnimator
-  enableColorChange: 1
-  colorChangeSpeed: 0.3
+  animationSpeed: 0.5
   color1: {r: 1, g: 1, b: 1, a: 1}
   color2: {r: 0.4, g: 0.4, b: 0.4, a: 1}
-  sparkleSpeed: 2
   minAlpha: 0.3
   maxAlpha: 1
 --- !u!4 &1089306704 stripped
@@ -5453,6 +5516,79 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!1001 &1358919494
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 0581341074e938a4fb87d28578703520, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2000
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 0581341074e938a4fb87d28578703520, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2000
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 0581341074e938a4fb87d28578703520, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2000
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 0581341074e938a4fb87d28578703520, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -424.52
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 0581341074e938a4fb87d28578703520, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 88.2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 0581341074e938a4fb87d28578703520, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -275.69
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 0581341074e938a4fb87d28578703520, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.53896916
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 0581341074e938a4fb87d28578703520, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.000000020345519
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 0581341074e938a4fb87d28578703520, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.84232557
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 0581341074e938a4fb87d28578703520, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.000000031796905
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 0581341074e938a4fb87d28578703520, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 0581341074e938a4fb87d28578703520, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -114.773
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 0581341074e938a4fb87d28578703520, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 0581341074e938a4fb87d28578703520, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0581341074e938a4fb87d28578703520, type: 3}
+      propertyPath: m_Name
+      value: 'pinkshark '
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 0581341074e938a4fb87d28578703520, type: 3}
 --- !u!1001 &1358951633
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6129,11 +6265,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0749bc0eba42a6a43ba2fe3d97e6f118, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TMPFloatingAnimator
-  enableColorChange: 1
-  colorChangeSpeed: 0.3
+  animationSpeed: 0.5
   color1: {r: 1, g: 1, b: 1, a: 1}
   color2: {r: 0.4, g: 0.4, b: 0.4, a: 1}
-  sparkleSpeed: 2
   minAlpha: 0.3
   maxAlpha: 1
 --- !u!4 &1496057280 stripped
@@ -6275,6 +6409,79 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -1556410543170635569, guid: 71eb075c78ee7df41b519fce8de1f2ff, type: 3}
+--- !u!1001 &1537335365
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 9296dccc5888d0242b25c5813de29f1a, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 3000
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9296dccc5888d0242b25c5813de29f1a, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 3000
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9296dccc5888d0242b25c5813de29f1a, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 3000
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9296dccc5888d0242b25c5813de29f1a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -425.4
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9296dccc5888d0242b25c5813de29f1a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 93.4
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9296dccc5888d0242b25c5813de29f1a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -239.1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9296dccc5888d0242b25c5813de29f1a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.4996176
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9296dccc5888d0242b25c5813de29f1a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.00000001886004
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9296dccc5888d0242b25c5813de29f1a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.86624604
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9296dccc5888d0242b25c5813de29f1a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.00000003269988
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9296dccc5888d0242b25c5813de29f1a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9296dccc5888d0242b25c5813de29f1a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -120.051
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9296dccc5888d0242b25c5813de29f1a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9296dccc5888d0242b25c5813de29f1a, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9296dccc5888d0242b25c5813de29f1a, type: 3}
+      propertyPath: m_Name
+      value: 'blueshark '
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9296dccc5888d0242b25c5813de29f1a, type: 3}
 --- !u!1001 &1553566218
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7149,11 +7356,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0749bc0eba42a6a43ba2fe3d97e6f118, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TMPFloatingAnimator
-  enableColorChange: 1
-  colorChangeSpeed: 0.5
+  animationSpeed: 0.5
   color1: {r: 1, g: 1, b: 1, a: 1}
   color2: {r: 0.4, g: 0.4, b: 0.4, a: 1}
-  sparkleSpeed: 3
   minAlpha: 0.3
   maxAlpha: 1
 --- !u!4 &1742702457 stripped
@@ -7430,11 +7635,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0749bc0eba42a6a43ba2fe3d97e6f118, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TMPFloatingAnimator
-  enableColorChange: 1
-  colorChangeSpeed: 0.3
+  animationSpeed: 0.5
   color1: {r: 1, g: 1, b: 1, a: 1}
   color2: {r: 0.4, g: 0.4, b: 0.4, a: 1}
-  sparkleSpeed: 2
   minAlpha: 0.3
   maxAlpha: 1
 --- !u!1001 &1798170849
@@ -8148,7 +8351,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fbdf3a602375a894aa87d24caeb0d410, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 87.9
+      value: 96.6
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fbdf3a602375a894aa87d24caeb0d410, type: 3}
       propertyPath: m_LocalPosition.z
@@ -8507,11 +8710,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0749bc0eba42a6a43ba2fe3d97e6f118, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TMPFloatingAnimator
-  enableColorChange: 1
-  colorChangeSpeed: 0.3
+  animationSpeed: 0.5
   color1: {r: 1, g: 1, b: 1, a: 1}
   color2: {r: 0.4, g: 0.4, b: 0.4, a: 1}
-  sparkleSpeed: 2
   minAlpha: 0.3
   maxAlpha: 1
 --- !u!1001 &2067892369
@@ -8995,11 +9196,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0749bc0eba42a6a43ba2fe3d97e6f118, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TMPFloatingAnimator
-  enableColorChange: 1
-  colorChangeSpeed: 0.3
+  animationSpeed: 0.5
   color1: {r: 1, g: 1, b: 1, a: 1}
   color2: {r: 0.4, g: 0.4, b: 0.4, a: 1}
-  sparkleSpeed: 2
   minAlpha: 0.3
   maxAlpha: 1
 --- !u!1 &2126701893
@@ -9156,3 +9355,6 @@ SceneRoots:
   - {fileID: 683545101}
   - {fileID: 1627403741}
   - {fileID: 1097797756}
+  - {fileID: 1537335365}
+  - {fileID: 1358919494}
+  - {fileID: 389936352}
