@@ -3,6 +3,8 @@ using System.Collections;
 using UnityEngine;
 using Khuthon.AI3D;
 using Khuthon.Backend;
+using System.IO;
+using System.Collections.Generic;
 
 namespace Khuthon.AI3D
 {
@@ -32,6 +34,10 @@ namespace Khuthon.AI3D
 
         public event Action<GameObject> OnModelReady;
         public event Action<string> OnPipelineError;
+        
+        private Vector3? _pendingSpawnPosition;
+        private Action<GameObject> _onCurrentModelReady;
+        private bool _isAutoPlacement;
 
         private void Awake()
         {
@@ -56,8 +62,21 @@ namespace Khuthon.AI3D
         /// <summary>
         /// 이미지 URL을 받아 전체 파이프라인 실행
         /// </summary>
-        public void RunPipeline(string imageUrl, Vector3? spawnPosition = null)
+        public void RunPipeline(string imageUrl, Vector3? spawnPosition = null, Action<GameObject> onModelReady = null, bool isAutoPlacement = false)
         {
+            _onCurrentModelReady = onModelReady;
+            _pendingSpawnPosition = spawnPosition;
+            _isAutoPlacement = isAutoPlacement;
+
+            // 0. 캐시 확인 (이미 생성된 파일이 있는지)
+            string cachedAssetPath = GetCachedModelPath(imageUrl);
+            if (System.IO.File.Exists(Path.Combine(Application.dataPath, cachedAssetPath.Substring("Assets/".Length))))
+            {
+                Debug.Log($"[Pipeline] 캐시된 모델 발견: {cachedAssetPath}");
+                LoadLocalModel(cachedAssetPath);
+                return;
+            }
+
             if (skipApiUseDummyGlb)
             {
                 Debug.Log("[Pipeline] API 스킵 → 더미 GLB 직접 로드");
@@ -152,7 +171,38 @@ namespace Khuthon.AI3D
             }
         }
 
-        private Vector3? _pendingSpawnPosition;
+        private string GetCachedModelPath(string url)
+        {
+            // URL을 기반으로 고유한 파일명 생성 (MD5 등 사용 가능하지만 여기서는 간단히 GetHashCode)
+            // 실제 프로젝트에서는 더 안전한 해시 함수 권장
+            string hash = Mathf.Abs(url.GetHashCode()).ToString();
+            return $"Assets/Models/Model_{hash}.obj";
+        }
+
+        private void LoadLocalModel(string assetPath)
+        {
+            #if UNITY_EDITOR
+            UnityEditor.AssetDatabase.Refresh();
+            GameObject importedObj = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(assetPath);
+            if (importedObj != null)
+            {
+                GameObject instance = Instantiate(importedObj);
+                instance.name = Path.GetFileNameWithoutExtension(assetPath);
+                
+                // TripoSR과 동일한 회전 보정
+                if (instance.transform.childCount > 0)
+                    instance.transform.GetChild(0).rotation = Quaternion.Euler(-90f, -90f, 0f);
+
+                HandleModelInstantiated(instance);
+            }
+            else
+            {
+                Debug.LogError($"[Pipeline] 캐시 로드 실패: {assetPath}");
+                // 실패 시 다시 생성 시도
+                // (이 부분은 무한 루프 방지를 위해 주의 필요)
+            }
+            #endif
+        }
 
         private void HandleModelInstantiated(GameObject model)
         {
@@ -164,8 +214,14 @@ namespace Khuthon.AI3D
                 Debug.Log($"[Pipeline] 모델을 지정된 위치로 이동: {_pendingSpawnPosition.Value}");
             }
             
-            // Housing 시스템 등이 감지할 수 있도록 이벤트 발생
-            OnModelReady?.Invoke(model);
+            // 콜백 실행
+            _onCurrentModelReady?.Invoke(model);
+            _onCurrentModelReady = null;
+
+            // Housing 시스템 등이 감지할 수 있도록 전역 이벤트 발생
+            // 자동 배치인 경우 GameOrchestrator가 StartPlacement를 호출하지 않도록 주의 필요
+            if (!_isAutoPlacement)
+                OnModelReady?.Invoke(model);
         }
 
         private void OnLocalProcessEnded()

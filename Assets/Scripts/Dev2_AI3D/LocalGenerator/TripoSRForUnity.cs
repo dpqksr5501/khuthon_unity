@@ -168,7 +168,9 @@ public class TripoSRForUnity : MonoBehaviour
         string modelsDirectory = "Assets/"+moveAndRenamePath;
         // 타임스탬프를 추가하여 파일 이름이 겹치지 않게 만듭니다.
         string timestamp = System.DateTime.Now.ToString("yyyyMMdd_HHmmss");
-        string newFileName = Path.GetFileNameWithoutExtension(AssetDatabase.GetAssetPath(images[0])) + "_" + timestamp + ".obj";
+        // 이미지의 GetHashCode를 사용하여 고유하지만 일정한 이름 생성 (재로딩 시 캐시 확인용)
+        string hash = Mathf.Abs(AssetDatabase.GetAssetPath(images[0]).GetHashCode()).ToString();
+        string newFileName = "Model_" + hash + ".obj";
         string newAssetPath = Path.Combine(modelsDirectory, newFileName);
         string newPath = Path.Combine(Application.dataPath, newAssetPath.Substring("Assets/".Length));
 

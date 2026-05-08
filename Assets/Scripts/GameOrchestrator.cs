@@ -37,6 +37,7 @@ namespace Khuthon
         [SerializeField] private UnityEngine.UI.Text statusText;
 
         private string _lastPeriod;
+        private string _lastImageUrl;
 
         private void Awake()
         {
@@ -83,6 +84,13 @@ namespace Khuthon
                 housingSystem.OnObjectPlaced += (obj, pos) =>
                     SetStatus($"'{obj.name}' 배치 완료: {pos}");
 
+            // 6) 기존 데이터 로드
+            if (housingSystem != null && pipelineManager != null)
+            {
+                SetStatus("기존 배치 데이터를 불러오는 중...");
+                housingSystem.LoadAllPlacements(pipelineManager);
+            }
+
             SetStatus("T 키를 눌러 검색 시작");
         }
 
@@ -106,6 +114,7 @@ namespace Khuthon
         private void OnImageConfirmed(int index, string imageUrl)
         {
             SetStatus("3D 모델 생성 중... (최대 3분 소요)");
+            _lastImageUrl = imageUrl; // URL 저장
             if (playerController != null) playerController.MovementLocked = true;
             pipelineManager?.RunPipeline(imageUrl);
         }
@@ -114,7 +123,7 @@ namespace Khuthon
         {
             SetStatus("3D 모델 로드 완료! 클릭으로 배치하세요. (우클릭/ESC = 취소)");
             if (playerController != null) playerController.MovementLocked = false;
-            housingSystem?.StartPlacement(model, "", _lastPeriod);
+            housingSystem?.StartPlacement(model, _lastImageUrl, _lastPeriod);
         }
 
         private void SetStatus(string message)
