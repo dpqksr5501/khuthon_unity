@@ -5,15 +5,12 @@
     background-color: rgba(0, 0, 0, 0.1); 
 }
 
-.title-label {
-    font-size: 80px;
-    color: white;
-    -unity-font-definition: url("project:/Assets/Fonts/GMarketSansLight.asset"); 
-    -unity-text-align: middle-center;
-    letter-spacing: 15px;
+.title-logo {
+    width: 600px;
+    height: 200px;
+    background-image: url("project:/Assets/UI/logo.png");
+    -unity-background-scale-mode: scale-to-fit;
     margin-bottom: 80px;
-    /* 빛나는 글로우 효과 추가 (하늘색 빛) */
-    text-shadow: 0 0 30px rgba(100, 200, 255, 0.9);
 }
 
 .menu-container {
