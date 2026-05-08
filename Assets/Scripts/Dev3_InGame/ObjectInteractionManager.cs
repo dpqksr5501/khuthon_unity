@@ -22,11 +22,16 @@ namespace Khuthon
         
         private VisualElement _root;
         private VisualElement _recommendPopup;
+        private Label _titleLabel;
         private Label _countLabel;
         
         private GameObject _focusedObject;
         private PlacedObjectHandle _focusedHandle;
         private Camera _mainCamera;
+
+        // 아웃라인 프로퍼티 캐싱
+        private static readonly int ShowOutlineId = Shader.PropertyToID("_ShowOutline");
+        private static readonly int OutlineColorId = Shader.PropertyToID("_OutlineColor");
 
         private void Awake()
         {
@@ -35,8 +40,15 @@ namespace Khuthon
             
             if (uiDocument != null)
             {
+                // 다른 UI보다 앞에 보이도록 정렬 순서 상향
+                uiDocument.sortingOrder = 100;
                 _root = uiDocument.rootVisualElement;
-                // UIDocument에 기본적으로 붙어있는 UI가 있다면 제거 (인스펙터에서 Source Asset이 설정된 경우 대비)
+                
+                // 루트가 화면을 꽉 채우도록 설정 (절대 좌표 HUD를 위해 필수)
+                _root.style.flexGrow = 1;
+                _root.style.width = Length.Percent(100);
+                _root.style.height = Length.Percent(100);
+                
                 _root.Clear();
             }
         }
@@ -45,11 +57,7 @@ namespace Khuthon
         {
             HandleDetection();
             HandleInput();
-
-            if (_recommendPopup != null && _focusedObject != null)
-            {
-                UpdateUIPosition();
-            }
+            // HUD가 고정 위치이므로 UpdateUIPosition() 호출 제거
         }
 
         private List<PlacedObjectHandle> _nearbyObjects = new List<PlacedObjectHandle>();
@@ -146,6 +154,13 @@ namespace Khuthon
                 _root.Clear(); 
                 
                 _recommendPopup = recommendPopupAsset.Instantiate();
+                // 팝업 컨테이너가 전체 화면을 차지하도록 설정 (우측 하단 배치를 위해 필수)
+                _recommendPopup.style.flexGrow = 1;
+                _recommendPopup.style.width = Length.Percent(100);
+                _recommendPopup.style.height = Length.Percent(100);
+                _recommendPopup.style.position = Position.Absolute;
+
+                _titleLabel = _recommendPopup.Q<Label>("title-label");
                 _countLabel = _recommendPopup.Q<Label>("count-label");
                 _root.Add(_recommendPopup);
                 
@@ -201,11 +216,16 @@ namespace Khuthon
         {
             if (string.IsNullOrEmpty(handle.FirebaseKey)) return;
 
+            // 타이틀 먼저 설정
+            if (_titleLabel != null) _titleLabel.text = handle.name;
+
             string path = $"placements/{handle.UserId}/{handle.FirebaseKey}";
             FirebaseManager.Instance.ReadObject<PlacedObjectRecord>(path, (record, ok) => {
-                if (ok && _countLabel != null)
+                if (ok)
                 {
-                    _countLabel.text = $"추천 수: {record.recommendCount}";
+                    if (_titleLabel != null) _titleLabel.text = record.objectName;
+                    if (_countLabel != null) _countLabel.text = $"추천 수: {record.recommendCount}";
+                    handle.UpdateScale(record.recommendCount);
                 }
             });
         }
@@ -224,6 +244,7 @@ namespace Khuthon
                         {
                             Debug.Log($"[Interaction] 추천 완료! 현재 추천 수: {record.recommendCount}");
                             if (_countLabel != null) _countLabel.text = $"추천 수: {record.recommendCount}";
+                            handle.UpdateScale(record.recommendCount); // 크기 즉시 반영
                         }
                     });
                 }
@@ -232,15 +253,21 @@ namespace Khuthon
 
         private void SetHighlight(GameObject obj, bool highlight)
         {
-            // 간단한 하이라이트 효과: Material 색상 조절
+            if (obj == null) return;
+
+            // 쉐이더의 _ShowOutline 토글 (1 = 켬, 0 = 끔)
             foreach (var renderer in obj.GetComponentsInChildren<Renderer>())
             {
                 foreach (var mat in renderer.materials)
                 {
-                    if (highlight)
-                        mat.EnableKeyword("_EMISSION");
-                    else
-                        mat.DisableKeyword("_EMISSION");
+                    if (mat.HasProperty(ShowOutlineId))
+                    {
+                        mat.SetFloat(ShowOutlineId, highlight ? 1f : 0f);
+                        if (highlight)
+                        {
+                            mat.SetColor(OutlineColorId, new Color(0.4f, 0.4f, 1f, 1f)); // Indigo 연보라빛
+                        }
+                    }
                 }
             }
         }

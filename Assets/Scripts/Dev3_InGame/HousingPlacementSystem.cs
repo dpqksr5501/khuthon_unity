@@ -37,6 +37,9 @@ namespace Khuthon.InGame
 
         private GameObject _previewObject;
         private string _pendingModelUrl;
+        private string _pendingTitle;
+        private string _pendingDescription;
+        private string _pendingBgmPath;
         private string _currentPeriod;
         private Camera _camera;
 
@@ -64,11 +67,14 @@ namespace Khuthon.InGame
                 CancelPlacement();
         }
 
-        public void StartPlacement(GameObject modelObject, string modelUrl = "", string period = "")
+        public void StartPlacement(GameObject modelObject, string modelUrl = "", string period = "", string title = "", string desc = "", string bgm = "")
         {
             if (IsPlacingObject) CancelPlacement();
 
             _pendingModelUrl = modelUrl;
+            _pendingTitle = title;
+            _pendingDescription = desc;
+            _pendingBgmPath = bgm;
             _currentPeriod = period;
             _previewObject = modelObject;
 
@@ -138,6 +144,9 @@ namespace Khuthon.InGame
             var handle = _previewObject.AddComponent<PlacedObjectHandle>();
             handle.ModelUrl = _pendingModelUrl;
             handle.UserId = userId;
+            handle.ObjectName = _pendingTitle;
+            handle.Description = _pendingDescription;
+            handle.BgmPath = _pendingBgmPath;
 
             if (saveToFirebase && FirebaseManager.Instance != null)
             {
@@ -145,11 +154,14 @@ namespace Khuthon.InGame
                 {
                     userId = userId,
                     period = _currentPeriod,
-                    objectName = _previewObject.name,
+                    objectName = _pendingTitle,
+                    description = _pendingDescription,
+                    bgmPath = _pendingBgmPath,
                     modelUrl = _pendingModelUrl,
                     posX = finalPos.x,
                     posY = finalPos.y,
                     posZ = finalPos.z,
+                    recommendCount = 0,
                     timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds()
                 };
                 FirebaseManager.Instance.PushData($"placements/{userId}", JsonUtility.ToJson(record),
@@ -270,7 +282,10 @@ namespace Khuthon.InGame
                     handle.UserId = record.userId;
                     handle.ModelUrl = record.modelUrl;
                     
-                    Debug.Log($"[Housing] 불러온 오브젝트 설정 완료: {record.firebaseKey}");
+                    // 불러올 때 즉시 추천수에 맞춰 크기 조정
+                    handle.UpdateScale(record.recommendCount);
+                    
+                    Debug.Log($"[Housing] 불러온 오브젝트 설정 완료: {record.firebaseKey} (추천수: {record.recommendCount})");
                 }
             }, true);
             
@@ -345,5 +360,17 @@ namespace Khuthon.InGame
         public string ModelUrl { get; set; }
         public string UserId { get; set; }
         public string FirebaseKey { get; set; }
+        public string ObjectName { get; set; }
+        public string Description { get; set; }
+        public string BgmPath { get; set; }
+
+        public void UpdateScale(int count)
+        {
+            // 기본 크기 1.0에서 추천 하나당 10%씩 커짐 (제한 없음)
+            float scaleFactor = 1.0f + (count * 0.1f);
+            transform.localScale = Vector3.one * scaleFactor;
+            
+            Debug.Log($"[Housing] 오브젝트 크기 업데이트: {scaleFactor}x (추천수: {count})");
+        }
     }
 }

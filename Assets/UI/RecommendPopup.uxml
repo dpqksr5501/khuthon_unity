@@ -1,10 +1,14 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:VisualElement name="recommend-container" style="position: absolute; width: 180px; align-items: center;">
-        <ui:VisualElement name="bubble" style="background-color: rgba(30, 30, 30, 0.8); border-radius: 12px; padding: 10px; border-width: 1px; border-color: rgba(99, 102, 241, 0.5); width: 100%;">
-            <ui:Label text="추천 수: 0" name="count-label" style="color: white; font-size: 14px; -unity-text-align: middle-center; margin-bottom: 5px;" />
-            <ui:VisualElement style="flex-direction: row; justify-content: center; align-items: center;">
-                <ui:Label text="G" style="background-color: #6366f1; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; -unity-font-style: bold; margin-right: 5px;" />
-                <ui:Label text="추천하기" style="color: #6366f1; font-size: 13px; -unity-font-style: bold;" />
+    <ui:VisualElement style="flex-grow: 1; width: 100%; height: 100%; pointer-events: none;">
+        <ui:VisualElement name="recommend-hud" style="position: absolute; right: 60px; bottom: 60px; width: 450px; padding: 35px; background-color: rgba(0, 0, 0, 0.85); border-radius: 32px; border-width: 2px; border-color: rgba(99, 102, 241, 0.5); pointer-events: auto;">
+            <ui:Label text="작품 제목" name="title-label" style="color: white; font-size: 34px; -unity-font-style: bold; margin-bottom: 12px; -unity-font-definition: url(&apos;project://database/Assets/Fonts/GmarketSansTTF/GmarketSansTTFLight.ttf?fileID=12800000&amp;guid=ea22eba667bc72142877b10b77202d14&amp;type=3#GmarketSansTTFLight&apos;);" />
+            <ui:VisualElement style="flex-direction: row; align-items: center; margin-bottom: 25px;">
+                <ui:Label text="♥" style="color: #6366f1; font-size: 28px; margin-right: 12px;" />
+                <ui:Label text="추천 수: 0" name="count-label" style="color: rgba(255, 255, 255, 0.9); font-size: 24px; -unity-font-definition: url(&apos;project://database/Assets/Fonts/GmarketSansTTF/GmarketSansTTFLight.ttf?fileID=12800000&amp;guid=ea22eba667bc72142877b10b77202d14&amp;type=3#GmarketSansTTFLight&apos;);" />
+            </ui:VisualElement>
+            <ui:VisualElement style="flex-direction: row; align-items: center; background-color: rgba(99, 102, 241, 0.2); padding: 15px 20px; border-radius: 16px; border-width: 1px; border-color: rgba(99, 102, 241, 0.6);">
+                <ui:Label text="G" style="background-color: #6366f1; color: white; padding: 4px 14px; border-radius: 8px; font-size: 20px; -unity-font-style: bold; margin-right: 15px; -unity-font-definition: url(&apos;project://database/Assets/Fonts/GmarketSansTTF/GmarketSansTTFLight.ttf?fileID=12800000&amp;guid=ea22eba667bc72142877b10b77202d14&amp;type=3#GmarketSansTTFLight&apos;);" />
+                <ui:Label text="를 눌러 작품 추천하기" style="color: white; font-size: 20px; -unity-font-definition: url(&apos;project://database/Assets/Fonts/GmarketSansTTF/GmarketSansTTFLight.ttf?fileID=12800000&amp;guid=ea22eba667bc72142877b10b77202d14&amp;type=3#GmarketSansTTFLight&apos;);" />
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
