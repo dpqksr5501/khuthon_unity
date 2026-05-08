@@ -18,13 +18,12 @@ namespace Khuthon.InGame
         // UI 요소
         private VisualElement _root;
         private DropdownField _yearDropdown;
-        private DropdownField _quarterDropdown;
         private DropdownField _categoryDropdown;
         private TextField _searchField;
         private Button _submitButton;
         private Button _cancelButton;
 
-        public event Action<string, string, string, string> OnSearchSubmit;
+        public event Action<string, string, string> OnSearchSubmit;
         public bool IsOpen { get; private set; }
 
         private void Awake()
@@ -43,7 +42,6 @@ namespace Khuthon.InGame
             
             // 요소 쿼리
             _yearDropdown = _root.Q<DropdownField>("year-dropdown");
-            _quarterDropdown = _root.Q<DropdownField>("quarter-dropdown");
             _categoryDropdown = _root.Q<DropdownField>("category-dropdown");
             _searchField = _root.Q<TextField>("search-field");
             _submitButton = _root.Q<Button>("submit-button");
@@ -56,16 +54,11 @@ namespace Khuthon.InGame
                 _yearDropdown.value = "2024";
             }
 
-            if (_quarterDropdown != null)
-            {
-                _quarterDropdown.choices = new List<string> { "1분기", "2분기", "3분기", "4분기" };
-                _quarterDropdown.value = "1분기";
-            }
 
             if (_categoryDropdown != null)
             {
-                _categoryDropdown.choices = new List<string> { "밈", "음식", "사건" };
-                _categoryDropdown.value = "밈";
+                _categoryDropdown.choices = new List<string> { "인물", "물건", "밈", "음식", "사건" };
+                _categoryDropdown.value = "물건";
             }
 
             // 이벤트 바인딩
@@ -95,6 +88,14 @@ namespace Khuthon.InGame
             if (playerController != null)
                 playerController.MovementLocked = true;
 
+            // StarterAssets 가 있다면 커서 잠금 해제
+            var starterInputs = FindObjectOfType<StarterAssets.StarterAssetsInputs>();
+            if (starterInputs != null)
+            {
+                starterInputs.cursorLocked = false;
+                starterInputs.cursorInputForLook = false;
+            }
+
             UnityEngine.Cursor.lockState = CursorLockMode.None;
             UnityEngine.Cursor.visible = true;
         }
@@ -104,6 +105,14 @@ namespace Khuthon.InGame
             SetPanelVisible(false);
             if (playerController != null)
                 playerController.MovementLocked = false;
+
+            // StarterAssets 복구
+            var starterInputs = FindObjectOfType<StarterAssets.StarterAssetsInputs>();
+            if (starterInputs != null)
+            {
+                starterInputs.cursorLocked = true;
+                starterInputs.cursorInputForLook = true;
+            }
 
             UnityEngine.Cursor.lockState = CursorLockMode.Locked;
             UnityEngine.Cursor.visible = false;
@@ -120,11 +129,10 @@ namespace Khuthon.InGame
             if (string.IsNullOrEmpty(text)) return;
 
             string year = _yearDropdown.value;
-            string quarter = _quarterDropdown.value;
             string category = _categoryDropdown.value;
 
-            Debug.Log($"[SearchInputUI] UXML 제출: {year} {quarter} {category} {text}");
-            OnSearchSubmit?.Invoke(text, year, quarter, category);
+            Debug.Log($"[SearchInputUI] UXML 제출: {year} {category} {text}");
+            OnSearchSubmit?.Invoke(text, year, category);
             Close();
             _searchField.value = "";
         }

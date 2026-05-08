@@ -1,0 +1,11 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="recommend-container" style="position: absolute; width: 180px; align-items: center;">
+        <ui:VisualElement name="bubble" style="background-color: rgba(30, 30, 30, 0.8); border-radius: 12px; padding: 10px; border-width: 1px; border-color: rgba(99, 102, 241, 0.5); width: 100%;">
+            <ui:Label text="추천 수: 0" name="count-label" style="color: white; font-size: 14px; -unity-text-align: middle-center; margin-bottom: 5px;" />
+            <ui:VisualElement style="flex-direction: row; justify-content: center; align-items: center;">
+                <ui:Label text="G" style="background-color: #6366f1; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; -unity-font-style: bold; margin-right: 5px;" />
+                <ui:Label text="추천하기" style="color: #6366f1; font-size: 13px; -unity-font-style: bold;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

@@ -64,7 +64,7 @@ namespace Khuthon.Backend
         {
             ReadData(path, (json, ok) =>
             {
-                if (ok && !string.IsNullOrEmpty(json))
+                if (ok && !string.IsNullOrEmpty(json) && json != "null")
                 {
                     try { onComplete?.Invoke(JsonUtility.FromJson<T>(json), true); }
                     catch (Exception ex)
@@ -75,6 +75,14 @@ namespace Khuthon.Backend
                 }
                 else onComplete?.Invoke(default, false);
             });
+        }
+
+        /// <summary>
+        /// 여러 개의 오브젝트 딕셔너리(JSON Object)를 읽어옵니다.
+        /// </summary>
+        public void ReadDictionary(string path, Action<string, bool> onComplete)
+        {
+            ReadData(path, onComplete);
         }
 
         // ─── 삭제 (DELETE) ────────────────────────────────────────────────────────
@@ -160,11 +168,13 @@ namespace Khuthon.Backend
     [Serializable]
     public class PlacedObjectRecord
     {
+        public string firebaseKey; // Firebase에서 생성된 키 저장용
         public string userId;
         public string period; // 예: "2024_1분기"
         public string objectName;
         public string modelUrl;
         public float posX, posY, posZ;
+        public int recommendCount; // 추천 수 추가
         public long timestamp;
     }
 }

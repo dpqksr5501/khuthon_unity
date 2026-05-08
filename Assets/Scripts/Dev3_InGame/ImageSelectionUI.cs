@@ -172,13 +172,25 @@ namespace Khuthon.InGame
             if (_root != null)
                 _root.style.display = visible ? DisplayStyle.Flex : DisplayStyle.None;
             
+            var starterInputs = FindObjectOfType<StarterAssets.StarterAssetsInputs>();
+
             if (visible)
             {
+                if (starterInputs != null)
+                {
+                    starterInputs.cursorLocked = false;
+                    starterInputs.cursorInputForLook = false;
+                }
                 UnityEngine.Cursor.lockState = CursorLockMode.None;
                 UnityEngine.Cursor.visible = true;
             }
             else
             {
+                if (starterInputs != null)
+                {
+                    starterInputs.cursorLocked = true;
+                    starterInputs.cursorInputForLook = true;
+                }
                 UnityEngine.Cursor.lockState = CursorLockMode.Locked;
                 UnityEngine.Cursor.visible = false;
             }

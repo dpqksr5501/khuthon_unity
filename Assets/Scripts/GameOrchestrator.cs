@@ -88,11 +88,11 @@ namespace Khuthon
 
         // ─── 이벤트 핸들러 ────────────────────────────────────────────────────────
 
-        private void OnSearchSubmitted(string query, string year, string quarter, string category)
+        private void OnSearchSubmitted(string query, string year, string category)
         {
-            _lastPeriod = $"{year}_{quarter}";
-            // 예: "2024 1분기 유행한 음식 탕후루"
-            string fullQuery = $"{year} {quarter} 유행한 {category} {query}";
+            _lastPeriod = $"{year}";
+            // 예: "2024 유행한 인물 차은우"
+            string fullQuery = $"{year} 유행한 {category} {query}";
             SetStatus($"'{fullQuery}' 검색 중...");
             googleSearcher?.SearchImages(fullQuery);
         }

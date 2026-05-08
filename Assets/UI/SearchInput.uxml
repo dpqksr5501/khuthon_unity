@@ -6,7 +6,6 @@
             
             <ui:VisualElement class="input-row">
                 <ui:DropdownField label="연도" name="year-dropdown" class="dropdown" />
-                <ui:DropdownField label="분기" name="quarter-dropdown" class="dropdown" />
             </ui:VisualElement>
 
             <ui:VisualElement class="input-row">
