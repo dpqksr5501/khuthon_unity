@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Khuthon.AI3D;
 using Khuthon.Backend;
 
@@ -154,6 +155,7 @@ namespace Khuthon.InGame
                 {
                     userId = userId,
                     period = _currentPeriod,
+                    sceneName = SceneManager.GetActiveScene().name,
                     objectName = _pendingTitle,
                     description = _pendingDescription,
                     bgmPath = _pendingBgmPath,
@@ -253,6 +255,7 @@ namespace Khuthon.InGame
                 if (ok && !string.IsNullOrEmpty(json) && json != "null" && json != "{}")
                 {
                     var records = ParseFirebaseDictionary(json);
+                    string currentScene = SceneManager.GetActiveScene().name;
                     foreach (var record in records)
                     {
                         if (string.IsNullOrEmpty(record.modelUrl))
@@ -260,6 +263,13 @@ namespace Khuthon.InGame
                             Debug.LogWarning($"[Housing] URL이 없는 레코드 발견(구버전 데이터), 스킵합니다. (ID: {record.firebaseKey})");
                             continue;
                         }
+
+                        // 씬 이름이 일치하는 경우에만 소환 (단, 기존 데이터 호환을 위해 sceneName이 비어있으면 일단 통과)
+                        if (!string.IsNullOrEmpty(record.sceneName) && record.sceneName != currentScene)
+                        {
+                            continue;
+                        }
+
                         StartCoroutine(SpawnSavedObject(record, pipelineManager));
                     }
                     OnPlacementsLoaded?.Invoke();

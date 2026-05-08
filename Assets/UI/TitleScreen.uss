@@ -1,0 +1,45 @@
+.screen-container {
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.1); 
+}
+
+.title-label {
+    font-size: 80px;
+    color: white;
+    -unity-font-definition: url("project:/Assets/Fonts/GMarketSansLight.asset"); 
+    -unity-text-align: middle-center;
+    letter-spacing: 15px;
+    margin-bottom: 80px;
+    /* 빛나는 글로우 효과 추가 (하늘색 빛) */
+    text-shadow: 0 0 30px rgba(100, 200, 255, 0.9);
+}
+
+.menu-container {
+    align-items: center;
+}
+
+.menu-button {
+    background-color: rgba(0, 0, 0, 0);
+    border-width: 0;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 24px;
+    margin: 12px;
+    transition-duration: 0.3s;
+    -unity-font-style: bold;
+    letter-spacing: 5px;
+    cursor: link;
+}
+
+.menu-button:hover {
+    color: white;
+    scale: 1.1;
+}
+
+.menu-button#play-button {
+    color: white;
+    border-bottom-width: 2px;
+    border-color: white;
+    padding-bottom: 5px;
+}

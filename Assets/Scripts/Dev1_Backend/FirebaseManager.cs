@@ -171,6 +171,7 @@ namespace Khuthon.Backend
         public string firebaseKey; // Firebase에서 생성된 키 저장용
         public string userId;
         public string period; // 예: "2024_1분기"
+        public string sceneName; // 현재 씬 이름 추가
         public string objectName;
         public string description; // 작품 설명 추가
         public string bgmPath;     // BGM 파일 경로 추가
