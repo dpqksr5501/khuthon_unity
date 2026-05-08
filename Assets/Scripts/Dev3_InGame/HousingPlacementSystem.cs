@@ -122,9 +122,13 @@ namespace Khuthon.InGame
             // 미리보기 재질 → 실제 재질 복원
             RestoreOriginalMaterial(_previewObject);
 
-            // 이동/선택 가능 컴포넌트 추가
-            var placer = _previewObject.AddComponent<PlacedObjectHandle>();
-            placer.ModelUrl = _pendingModelUrl;
+            // 물리 활성화 (만약 있다면)
+            Rigidbody rb = _previewObject.GetComponentInChildren<Rigidbody>();
+            if (rb != null)
+            {
+                rb.isKinematic = false;
+                rb.useGravity = true;
+            }
 
             Debug.Log($"[Housing] 배치 확정: {finalPos}");
 

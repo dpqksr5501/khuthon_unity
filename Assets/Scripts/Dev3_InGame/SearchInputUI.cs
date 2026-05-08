@@ -77,6 +77,10 @@ namespace Khuthon.InGame
 
         private void Update()
         {
+            // TextField가 포커스된 상태라면 단축키 입력을 막음
+            if (_searchField != null && _searchField.focusController.focusedElement == _searchField)
+                return;
+
             // 새 Input System 방식 (Keyboard.current 사용)
             if (UnityEngine.InputSystem.Keyboard.current != null && 
                 UnityEngine.InputSystem.Keyboard.current[UnityEngine.InputSystem.Key.T].wasPressedThisFrame)

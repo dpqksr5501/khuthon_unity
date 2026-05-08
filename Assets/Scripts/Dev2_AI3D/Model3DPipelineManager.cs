@@ -139,9 +139,12 @@ namespace Khuthon.AI3D
                 if (localTripoSR != null)
                 {
                     localTripoSR.RunTripoSRWithTexture(savedTex);
-                    // TripoSRForUnity는 작업 완료 후 자동으로 씬에 배치하도록 설정되어 있음
-                    // 배치가 완료되면 이벤트를 발생시키기 위해 OnPythonProcessEnded 구독
                     TripoSRForUnity.OnPythonProcessEnded += OnLocalProcessEnded;
+                    // 생성된 오브젝트를 위치시키기 위해 구독
+                    TripoSRForUnity.OnModelInstantiated += HandleModelInstantiated;
+                    
+                    // 현재 파이프라인에서 사용할 스폰 위치 저장
+                    _pendingSpawnPosition = spawnPosition;
                 }
                 #else
                 Debug.LogError("Local TripoSR only works in Unity Editor.");
@@ -149,14 +152,26 @@ namespace Khuthon.AI3D
             }
         }
 
+        private Vector3? _pendingSpawnPosition;
+
+        private void HandleModelInstantiated(GameObject model)
+        {
+            TripoSRForUnity.OnModelInstantiated -= HandleModelInstantiated;
+
+            if (_pendingSpawnPosition.HasValue)
+            {
+                model.transform.position = _pendingSpawnPosition.Value;
+                Debug.Log($"[Pipeline] 모델을 지정된 위치로 이동: {_pendingSpawnPosition.Value}");
+            }
+            
+            // Housing 시스템 등이 감지할 수 있도록 이벤트 발생
+            OnModelReady?.Invoke(model);
+        }
+
         private void OnLocalProcessEnded()
         {
             TripoSRForUnity.OnPythonProcessEnded -= OnLocalProcessEnded;
             Debug.Log("[Pipeline] 로컬 TripoSR 작업 완료");
-            // TripoSRForUnity가 생성한 오브젝트를 찾아서 OnModelReady 호출해야 함
-            // 하지만 TripoSRForUnity는 스스로 Instantiate 하므로, 
-            // 여기서 별도의 작업을 하지 않아도 씬에는 나타남.
-            // 필요하다면 가장 최근에 생성된 GeneratedModel을 찾아서 보낼 수 있음.
         }
 
         /// <summary>

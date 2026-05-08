@@ -64,6 +64,7 @@ public class TripoSRForUnity : MonoBehaviour
     private bool isProcessRunning = false;
 
     public static event Action OnPythonProcessEnded;
+    public static event Action<GameObject> OnModelInstantiated;
 
     public void RunTripoSR()
     {
@@ -213,8 +214,12 @@ public class TripoSRForUnity : MonoBehaviour
                 GameObject meshObj = instantiatedObj.transform.GetChild(0).gameObject;
                 MeshCollider mc = meshObj.AddComponent<MeshCollider>();
                 mc.convex = true;
-                meshObj.AddComponent<Rigidbody>();
+                // Rigidbody는 배치가 완료된 후에 추가하는 것이 좋으므로 여기서는 생략하거나 비활성화 상태로 추가
+                Rigidbody rb = meshObj.AddComponent<Rigidbody>();
+                rb.isKinematic = true; // 배치 전까지는 물리 고정
             }
+
+            OnModelInstantiated?.Invoke(instantiatedObj); // 생성된 오브젝트 알림
         }
         else UnityEngine.Debug.LogError("Failed to load the mesh at path: " + objPath);
     }
