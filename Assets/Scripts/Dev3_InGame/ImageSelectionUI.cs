@@ -69,6 +69,11 @@ namespace Khuthon.InGame
             }
         }
 
+        public void Hide()
+        {
+            SetVisible(false);
+        }
+
         private void ClearExistingSlots()
         {
             if (_grid != null) _grid.Clear();
