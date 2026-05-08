@@ -18,7 +18,9 @@ namespace Khuthon
         [Header("UI Toolkit 설정")]
         [SerializeField] private UIDocument uiDocument;
         [SerializeField] private VisualTreeAsset recommendPopupAsset;
+        [SerializeField] private AudioClip recommendSFX;
         
+        private AudioSource _audioSource;
         private VisualElement _root;
         private VisualElement _recommendPopup;
         private Label _yearLabel;
@@ -38,6 +40,9 @@ namespace Khuthon
         {
             _mainCamera = Camera.main;
             if (uiDocument == null) uiDocument = GetComponent<UIDocument>();
+
+            _audioSource = GetComponent<AudioSource>();
+            if (_audioSource == null) _audioSource = gameObject.AddComponent<AudioSource>();
             
             if (uiDocument != null)
             {
@@ -259,6 +264,12 @@ namespace Khuthon
                             Debug.Log($"[Interaction] 추천 완료! 현재 추천 수: {record.recommendCount}");
                             if (_countLabel != null) _countLabel.text = $"공감수 | {record.recommendCount}";
                             handle.UpdateScale(record.recommendCount); // 크기 즉시 반영
+
+                            // 공감 완료 효과음 재생
+                            if (recommendSFX != null && _audioSource != null)
+                            {
+                                _audioSource.PlayOneShot(recommendSFX);
+                            }
                         }
                     });
                 }

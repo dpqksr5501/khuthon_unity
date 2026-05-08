@@ -24,6 +24,10 @@ namespace Khuthon.AI3D
         [SerializeField] private TripoSRForUnity localTripoSR;
         [SerializeField] private string localInputSavePath = "Assets/TripoSR/input_runtime.png";
 
+        [Header("오디오 설정")]
+        [SerializeField] private AudioClip generationReadySFX;
+        private AudioSource _audioSource;
+
         [Header("R&D 테스트용 더미 데이터")]
         [SerializeField] private bool useDummyOnStart = false;
         [Tooltip("더미 이미지 URL (공개 JPEG 링크)")]
@@ -45,6 +49,9 @@ namespace Khuthon.AI3D
             if (tripo3DClient == null) tripo3DClient = FindAnyObjectByType<Tripo3DClient>();
             if (glbLoader == null) glbLoader = FindAnyObjectByType<GlbModelLoader>();
             if (localTripoSR == null) localTripoSR = FindAnyObjectByType<TripoSRForUnity>();
+
+            _audioSource = GetComponent<AudioSource>();
+            if (_audioSource == null) _audioSource = gameObject.AddComponent<AudioSource>();
 
             if (glbLoader != null)
             {
@@ -226,6 +233,12 @@ namespace Khuthon.AI3D
             {
                 model.transform.position = _pendingSpawnPosition.Value;
                 Debug.Log($"[Pipeline] 모델을 지정된 위치로 이동: {_pendingSpawnPosition.Value}");
+            }
+
+            // 생성 완료 효과음 재생
+            if (generationReadySFX != null && _audioSource != null)
+            {
+                _audioSource.PlayOneShot(generationReadySFX);
             }
             
             // 콜백 실행
