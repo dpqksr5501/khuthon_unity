@@ -985,6 +985,63 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 49501f0b6acd5c7478521f64a647e655, type: 3}
   m_PrefabInstance: {fileID: 105757006}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &110981412
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5182617933465761658, guid: c449da5fe399c44439a14bdf782453f5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -974.62976
+      objectReference: {fileID: 0}
+    - target: {fileID: 5182617933465761658, guid: c449da5fe399c44439a14bdf782453f5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.00001
+      objectReference: {fileID: 0}
+    - target: {fileID: 5182617933465761658, guid: c449da5fe399c44439a14bdf782453f5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -599.93994
+      objectReference: {fileID: 0}
+    - target: {fileID: 5182617933465761658, guid: c449da5fe399c44439a14bdf782453f5, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5182617933465761658, guid: c449da5fe399c44439a14bdf782453f5, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5182617933465761658, guid: c449da5fe399c44439a14bdf782453f5, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5182617933465761658, guid: c449da5fe399c44439a14bdf782453f5, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5182617933465761658, guid: c449da5fe399c44439a14bdf782453f5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5182617933465761658, guid: c449da5fe399c44439a14bdf782453f5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5182617933465761658, guid: c449da5fe399c44439a14bdf782453f5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6002764711438447905, guid: c449da5fe399c44439a14bdf782453f5, type: 3}
+      propertyPath: m_Name
+      value: BGMManager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c449da5fe399c44439a14bdf782453f5, type: 3}
 --- !u!1001 &130101319
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2472,6 +2529,7 @@ MonoBehaviour:
     targetSceneName: 2020
   transitionSpeed: 5
   portalCamera: {fileID: 0}
+  portalEntrySFX: {fileID: 8300000, guid: c05ccbfc76032d94ea060ad0b61041ce, type: 3}
 --- !u!1001 &531436792
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8737,8 +8795,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4416926081852918490, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
       propertyPath: FootstepAudioClips.Array.size
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 4416926081852918490, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+      propertyPath: 'FootstepAudioClips.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 0a4c48d0d1573564e87b25caf0435e9c, type: 3}
+    - target: {fileID: 4416926081852918490, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+      propertyPath: 'FootstepAudioClips.Array.data[1]'
+      value: 
+      objectReference: {fileID: 8300000, guid: cd921face81e0e34091e572373afe6ec, type: 3}
     - target: {fileID: 6982812146204527121, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
       propertyPath: m_Avatar
       value: 
@@ -10407,3 +10473,4 @@ SceneRoots:
   - {fileID: 1097797756}
   - {fileID: 490616574}
   - {fileID: 875120775}
+  - {fileID: 110981412}

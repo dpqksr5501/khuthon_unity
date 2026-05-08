@@ -231,14 +231,17 @@ namespace Khuthon
 
         private void RefreshRecommendCount(PlacedObjectHandle handle)
         {
-            if (string.IsNullOrEmpty(handle.FirebaseKey)) return;
+            // 먼저 인스펙터에 설정된 로컬 정보로 표시
+            if (_yearLabel != null) _yearLabel.text = $"{handle.Period}년";
+            if (_titleLabel != null) _titleLabel.text = $"{{ {handle.ObjectName} }}";
+            if (_descriptionLabel != null) _descriptionLabel.text = handle.Description;
+            if (_countLabel != null) _countLabel.text = "공감수 | 0";
 
-            // 타이틀 먼저 설정
-            if (_titleLabel != null) _titleLabel.text = handle.name;
+            if (string.IsNullOrEmpty(handle.FirebaseKey)) return;
 
             string path = $"placements/{handle.UserId}/{handle.FirebaseKey}";
             FirebaseManager.Instance.ReadObject<PlacedObjectRecord>(path, (record, ok) => {
-                if (ok)
+                if (ok && record != null)
                 {
                     if (_yearLabel != null) _yearLabel.text = $"{record.period}년";
                     if (_titleLabel != null) _titleLabel.text = $"{{ {record.objectName} }}";
