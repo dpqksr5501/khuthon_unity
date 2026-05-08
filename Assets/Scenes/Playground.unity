@@ -119,6 +119,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &226771857 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4416926081852918481, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+  m_PrefabInstance: {fileID: 585384294}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &450390246
 GameObject:
   m_ObjectHideFlags: 0
@@ -264,7 +269,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Khuthon.Backend.GoogleImageSearcher
   apiKey: f9606100b0e72a653490216ef9410f3ee7949fbd
-  imageCount: 20
+  imageCount: 40
 --- !u!4 &450390256
 Transform:
   m_ObjectHideFlags: 0
@@ -309,6 +314,7 @@ MonoBehaviour:
   outputDir: output/
   modelSaveFormat: obj
   render: 0
+  customOutputName: 
 --- !u!1 &499030235
 GameObject:
   m_ObjectHideFlags: 0
@@ -667,7 +673,13 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3893294197879345259, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1515928090}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4416926081852918481, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 585384303}
+    - targetCorrespondingSourceObject: {fileID: 4416926081852918481, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 585384304}
   m_SourcePrefab: {fileID: 100100000, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
 --- !u!4 &585384295 stripped
 Transform:
@@ -679,6 +691,45 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3893294197879345259, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
   m_PrefabInstance: {fileID: 585384294}
   m_PrefabAsset: {fileID: 0}
+--- !u!135 &585384303
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 226771857}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 2.18
+  m_Center: {x: 0, y: 0.82, z: 0}
+--- !u!114 &585384304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 226771857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d170addda6a40344a9c30eb543c1e21b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Khuthon.ObjectInteractionManager
+  objectLayer:
+    serializedVersion: 2
+    m_Bits: 1
+  interactDistance: 2
+  uiDocument: {fileID: 1406813519}
+  recommendPopupAsset: {fileID: 9197481963319205126, guid: 3a47aceeb0265934196dda28a5cf4611, type: 3}
 --- !u!1 &663095373
 GameObject:
   m_ObjectHideFlags: 0
@@ -1485,33 +1536,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1406813518}
-  - component: {fileID: 1406813517}
   - component: {fileID: 1406813519}
   m_Layer: 0
-  m_Name: ObjectInteractionManager
+  m_Name: ObjectInteractionUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1406813517
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1406813516}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d170addda6a40344a9c30eb543c1e21b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Khuthon.ObjectInteractionManager
-  objectLayer:
-    serializedVersion: 2
-    m_Bits: 1
-  interactDistance: 8
-  uiDocument: {fileID: 1406813519}
-  recommendPopupAsset: {fileID: 9197481963319205126, guid: 3a47aceeb0265934196dda28a5cf4611, type: 3}
 --- !u!4 &1406813518
 Transform:
   m_ObjectHideFlags: 0

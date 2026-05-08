@@ -157,6 +157,8 @@ namespace Khuthon.AI3D
                 
                 if (localTripoSR != null)
                 {
+                    // URL 해시를 파일명으로 지정하여 중복 생성 방지 및 캐싱 연동
+                    localTripoSR.customOutputName = "Model_" + Mathf.Abs(imageUrl.GetHashCode()).ToString();
                     localTripoSR.RunTripoSRWithTexture(savedTex);
                     TripoSRForUnity.OnPythonProcessEnded += OnLocalProcessEnded;
                     // 생성된 오브젝트를 위치시키기 위해 구독
@@ -189,17 +191,29 @@ namespace Khuthon.AI3D
                 GameObject instance = Instantiate(importedObj);
                 instance.name = Path.GetFileNameWithoutExtension(assetPath);
                 
-                // TripoSR과 동일한 회전 보정
+                // 1. 회전 보정
                 if (instance.transform.childCount > 0)
-                    instance.transform.GetChild(0).rotation = Quaternion.Euler(-90f, -90f, 0f);
+                {
+                    Transform meshChild = instance.transform.GetChild(0);
+                    meshChild.rotation = Quaternion.Euler(-90f, -90f, 0f);
+
+                    // 2. 물리 구성 (InteractionManager가 인식할 수 있게 콜라이더 추가)
+                    MeshCollider mc = meshChild.gameObject.AddComponent<MeshCollider>();
+                    mc.convex = true;
+
+                    Rigidbody rb = meshChild.gameObject.AddComponent<Rigidbody>();
+                    rb.isKinematic = true; 
+                    
+                    // 3. 레이어 설정 (오브젝트 레이어로 설정되어야 인식됨)
+                    // (가정: 6번 레이어가 오브젝트 레이어라면)
+                    // instance.layer = 6; 
+                }
 
                 HandleModelInstantiated(instance);
             }
             else
             {
                 Debug.LogError($"[Pipeline] 캐시 로드 실패: {assetPath}");
-                // 실패 시 다시 생성 시도
-                // (이 부분은 무한 루프 방지를 위해 주의 필요)
             }
             #endif
         }

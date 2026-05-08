@@ -52,29 +52,60 @@ namespace Khuthon
             }
         }
 
+        private List<PlacedObjectHandle> _nearbyObjects = new List<PlacedObjectHandle>();
+
+        private void OnTriggerEnter(Collider other)
+        {
+            var handle = other.GetComponentInParent<PlacedObjectHandle>();
+            if (handle != null && !_nearbyObjects.Contains(handle))
+            {
+                _nearbyObjects.Add(handle);
+            }
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            var handle = other.GetComponentInParent<PlacedObjectHandle>();
+            if (handle != null && _nearbyObjects.Contains(handle))
+            {
+                _nearbyObjects.Remove(handle);
+                if (_focusedHandle == handle)
+                {
+                    UnfocusObject();
+                }
+            }
+        }
+
         private void HandleDetection()
         {
-            // 플레이어 주변 일정 거리(interactDistance) 내의 오브젝트 탐색
-            Collider[] colliders = Physics.OverlapSphere(transform.position, interactDistance, objectLayer);
-            
+            if (_nearbyObjects.Count == 0)
+            {
+                if (_focusedObject != null) UnfocusObject();
+                return;
+            }
+
+            // 리스트에서 가장 가까운 오브젝트 찾기
             PlacedObjectHandle closestHandle = null;
             float minDistance = float.MaxValue;
 
-            foreach (var col in colliders)
+            for (int i = _nearbyObjects.Count - 1; i >= 0; i--)
             {
-                var handle = col.GetComponentInParent<PlacedObjectHandle>();
-                if (handle != null)
+                var handle = _nearbyObjects[i];
+                if (handle == null) // 파괴된 오브젝트 예외 처리
                 {
-                    float dist = Vector3.Distance(transform.position, handle.transform.position);
-                    if (dist < minDistance)
-                    {
-                        minDistance = dist;
-                        closestHandle = handle;
-                    }
+                    _nearbyObjects.RemoveAt(i);
+                    continue;
+                }
+
+                float dist = Vector3.Distance(transform.position, handle.transform.position);
+                if (dist < minDistance)
+                {
+                    minDistance = dist;
+                    closestHandle = handle;
                 }
             }
 
-            // 가장 가까운 오브젝트가 있다면 포커스
+            // 가장 가까운 오브젝트 포커스
             if (closestHandle != null)
             {
                 if (_focusedObject != closestHandle.gameObject)
@@ -82,13 +113,9 @@ namespace Khuthon
                     FocusObject(closestHandle);
                 }
             }
-            else
+            else if (_focusedObject != null)
             {
-                // 주변에 아무것도 없을 때
-                if (_focusedObject != null)
-                {
-                    UnfocusObject();
-                }
+                UnfocusObject();
             }
         }
 
@@ -105,29 +132,34 @@ namespace Khuthon
 
         private void FocusObject(PlacedObjectHandle handle)
         {
+            if (handle == null || _focusedObject == handle.gameObject) return;
+            
+            // 기존 팝업이 있다면 확실히 제거
+            UnfocusObject();
+
             _focusedObject = handle.gameObject;
             _focusedHandle = handle;
-            
-            // UI 생성
+
             if (recommendPopupAsset != null && _root != null)
             {
+                // 생성 전 한 번 더 전체 자식 검사 (무한 생성 방지)
+                _root.Clear(); 
+                
                 _recommendPopup = recommendPopupAsset.Instantiate();
                 _countLabel = _recommendPopup.Q<Label>("count-label");
                 _root.Add(_recommendPopup);
                 
                 RefreshRecommendCount(handle);
+                SetHighlight(handle.gameObject, true);
             }
-
-            // TODO: 아웃라인 효과 추가 (Material 변경 등)
-            SetHighlight(handle.gameObject, true);
         }
 
         private void UnfocusObject()
         {
-            if (_recommendPopup != null)
+            // _root 아래의 모든 요소를 날려서 확실하게 정리
+            if (_root != null)
             {
-                _recommendPopup.RemoveFromHierarchy();
-                _recommendPopup = null;
+                _root.Clear();
             }
 
             if (_focusedObject != null)
@@ -135,24 +167,34 @@ namespace Khuthon
                 SetHighlight(_focusedObject, false);
             }
 
+            _recommendPopup = null;
             _focusedObject = null;
             _focusedHandle = null;
         }
 
         private void UpdateUIPosition()
         {
-            if (_root == null || _root.panel == null || _mainCamera == null) return;
+            if (_root == null || _root.panel == null || _mainCamera == null || _focusedObject == null) return;
+
+            Vector3 worldPos = _focusedObject.transform.position + Vector3.up * 1.2f;
+
+            // 카메라 뒤 체크 (NaN 방지)
+            Vector3 screenPos = _mainCamera.WorldToViewportPoint(worldPos);
+            if (screenPos.z <= 0)
+            {
+                if (_recommendPopup != null) _recommendPopup.style.display = DisplayStyle.None;
+                return;
+            }
 
             // 오브젝트 머리 위에 UI 배치
-            Vector3 worldPos = _focusedObject.transform.position + Vector3.up * 1.2f;
             Vector2 panelPos = RuntimePanelUtils.CameraTransformWorldToPanel(_root.panel, worldPos, _mainCamera);
             
-            _recommendPopup.style.left = panelPos.x - 90; // width/2
-            _recommendPopup.style.top = panelPos.y - 60;  // height/2
-            
-            // 카메라 뒤 체크
-            Vector3 screenPos = _mainCamera.WorldToViewportPoint(worldPos);
-            _recommendPopup.style.display = (screenPos.z > 0) ? DisplayStyle.Flex : DisplayStyle.None;
+            if (_recommendPopup != null)
+            {
+                _recommendPopup.style.display = DisplayStyle.Flex;
+                _recommendPopup.style.left = panelPos.x - 90; // width/2
+                _recommendPopup.style.top = panelPos.y - 120; // height
+            }
         }
 
         private void RefreshRecommendCount(PlacedObjectHandle handle)
