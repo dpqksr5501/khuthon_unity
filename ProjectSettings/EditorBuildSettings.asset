@@ -6,11 +6,14 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Sinhyeok/TITLE.unity
+    guid: 3223f81976a251648b00ba17667be8ca
+  - enabled: 1
     path: Assets/Sinhyeok/MAP.unity
     guid: e3f47b475cac49c4e800bc6ece547d15
   - enabled: 1
-    path: Assets/Sinhyeok/TITLE.unity
-    guid: 3223f81976a251648b00ba17667be8ca
+    path: Assets/Sinhyeok/2012.unity
+    guid: 135fe391a97b9514ca7b79af8bf1d844
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
