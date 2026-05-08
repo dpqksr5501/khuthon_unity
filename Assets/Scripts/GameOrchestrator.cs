@@ -30,6 +30,7 @@ namespace Khuthon
         [Header("Dev3 - 인게임")]
         [SerializeField] private SearchInputUI searchInputUI;
         [SerializeField] private ImageSelectionUI imageSelectionUI;
+        [SerializeField] private ObjectDetailsUI objectDetailsUI;
         [SerializeField] private HousingPlacementSystem housingSystem;
         [SerializeField] private PlayerController playerController;
 
@@ -37,6 +38,10 @@ namespace Khuthon
         [SerializeField] private UnityEngine.UI.Text statusText;
 
         private string _lastPeriod;
+        private string _lastImageUrl;
+        private string _lastTitle;
+        private string _lastDescription;
+        private string _lastBgmPath;
 
         private void Awake()
         {
@@ -45,6 +50,7 @@ namespace Khuthon
             if (pipelineManager == null) pipelineManager = FindObjectOfType<Model3DPipelineManager>();
             if (searchInputUI == null) searchInputUI = FindObjectOfType<SearchInputUI>();
             if (imageSelectionUI == null) imageSelectionUI = FindObjectOfType<ImageSelectionUI>();
+            if (objectDetailsUI == null) objectDetailsUI = FindObjectOfType<ObjectDetailsUI>();
             if (housingSystem == null) housingSystem = FindObjectOfType<HousingPlacementSystem>();
             if (playerController == null) playerController = FindObjectOfType<PlayerController>();
         }
@@ -71,6 +77,16 @@ namespace Khuthon
                 imageSelectionUI.OnCancelled += () => SetStatus("선택 취소됨");
             }
 
+            // 3.5) 상세 정보 입력 확인
+            if (objectDetailsUI != null)
+            {
+                objectDetailsUI.OnConfirmed += OnDetailsConfirmed;
+                objectDetailsUI.OnCanceled += () => {
+                    objectDetailsUI.Hide();
+                    imageSelectionUI?.Show(null); // 다시 선택창 (캐시된 URL 있을 경우 대비)
+                };
+            }
+
             // 4) 3D 모델 준비 → 배치 모드
             if (pipelineManager != null)
             {
@@ -82,6 +98,13 @@ namespace Khuthon
             if (housingSystem != null)
                 housingSystem.OnObjectPlaced += (obj, pos) =>
                     SetStatus($"'{obj.name}' 배치 완료: {pos}");
+
+            // 6) 기존 데이터 로드
+            if (housingSystem != null && pipelineManager != null)
+            {
+                SetStatus("기존 배치 데이터를 불러오는 중...");
+                housingSystem.LoadAllPlacements(pipelineManager);
+            }
 
             SetStatus("T 키를 눌러 검색 시작");
         }
@@ -105,16 +128,30 @@ namespace Khuthon
 
         private void OnImageConfirmed(int index, string imageUrl)
         {
+            _lastImageUrl = imageUrl;
+            imageSelectionUI?.Hide();
+            objectDetailsUI?.Show("작품_" + UnityEngine.Random.Range(100, 999));
+            SetStatus("작품의 상세 정보를 입력해 주세요.");
+        }
+
+        private void OnDetailsConfirmed(string title, string desc, string bgmPath)
+        {
+            _lastTitle = title;
+            _lastDescription = desc;
+            _lastBgmPath = bgmPath;
+
+            objectDetailsUI?.Hide();
             SetStatus("3D 모델 생성 중... (최대 3분 소요)");
+            
             if (playerController != null) playerController.MovementLocked = true;
-            pipelineManager?.RunPipeline(imageUrl);
+            pipelineManager?.RunPipeline(_lastImageUrl);
         }
 
         private void OnModelReady(GameObject model)
         {
             SetStatus("3D 모델 로드 완료! 클릭으로 배치하세요. (우클릭/ESC = 취소)");
             if (playerController != null) playerController.MovementLocked = false;
-            housingSystem?.StartPlacement(model, "", _lastPeriod);
+            housingSystem?.StartPlacement(model, _lastImageUrl, _lastPeriod, _lastTitle, _lastDescription, _lastBgmPath);
         }
 
         private void SetStatus(string message)
