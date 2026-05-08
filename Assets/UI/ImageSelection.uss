@@ -2,11 +2,16 @@
     width: 800px;
 }
 
+.image-grid-scroll {
+    height: 420px;
+    margin-bottom: 20px;
+}
+
 .image-grid {
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-around;
-    margin-bottom: 25px;
+    justify-content: flex-start;
+    padding: 10px;
 }
 
 .image-slot {
