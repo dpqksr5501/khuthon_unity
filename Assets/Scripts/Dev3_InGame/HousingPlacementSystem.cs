@@ -364,13 +364,72 @@ namespace Khuthon.InGame
         public string Description { get; set; }
         public string BgmPath { get; set; }
 
+        private AudioSource _audioSource;
+        private AudioClip _cachedClip;
+
+        private void Awake()
+        {
+            // 3D 사운드 설정을 위한 AudioSource 추가
+            _audioSource = gameObject.AddComponent<AudioSource>();
+            _audioSource.spatialBlend = 1.0f; // 100% 3D 사운드
+            _audioSource.rolloffMode = AudioRolloffMode.Linear;
+            _audioSource.minDistance = 1f;
+            _audioSource.maxDistance = 15f; // 15미터 밖에서는 안 들림
+            _audioSource.loop = true;
+            _audioSource.playOnAwake = false;
+        }
+
         public void UpdateScale(int count)
         {
-            // 기본 크기 1.0에서 추천 하나당 10%씩 커짐 (제한 없음)
             float scaleFactor = 1.0f + (count * 0.1f);
             transform.localScale = Vector3.one * scaleFactor;
-            
             Debug.Log($"[Housing] 오브젝트 크기 업데이트: {scaleFactor}x (추천수: {count})");
+        }
+
+        public void PlayBGM()
+        {
+            if (string.IsNullOrEmpty(BgmPath)) return;
+
+            if (_cachedClip != null)
+            {
+                _audioSource.clip = _cachedClip;
+                _audioSource.Play();
+            }
+            else
+            {
+                StartCoroutine(LoadAndPlayAudio());
+            }
+        }
+
+        public void StopBGM()
+        {
+            if (_audioSource != null && _audioSource.isPlaying)
+            {
+                _audioSource.Stop();
+            }
+        }
+
+        private System.Collections.IEnumerator LoadAndPlayAudio()
+        {
+            // 로컬 파일 경로를 URI 형식으로 변환 (Windows 대응)
+            string uri = "file://" + BgmPath.Replace("\\", "/");
+            
+            using (UnityEngine.Networking.UnityWebRequest www = UnityEngine.Networking.UnityWebRequestMultimedia.GetAudioClip(uri, AudioType.MPEG))
+            {
+                yield return www.SendWebRequest();
+
+                if (www.result == UnityEngine.Networking.UnityWebRequest.Result.Success)
+                {
+                    _cachedClip = UnityEngine.Networking.DownloadHandlerAudioClip.GetContent(www);
+                    _audioSource.clip = _cachedClip;
+                    _audioSource.Play();
+                    Debug.Log($"[Audio] BGM 재생 시작: {BgmPath}");
+                }
+                else
+                {
+                    Debug.LogError($"[Audio] BGM 로드 실패: {www.error} (Path: {uri})");
+                }
+            }
         }
     }
 }
