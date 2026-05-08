@@ -30,6 +30,10 @@ namespace Khuthon.InGame
         [SerializeField] private bool saveToFirebase = true;
         [SerializeField] private string userId = "player_1";
 
+        [Header("오디오 효과음")]
+        [SerializeField] private AudioClip placementConfirmSFX;
+        private AudioSource _audioSource;
+
         public event Action<GameObject, Vector3> OnObjectPlaced;
         public event Action OnPlacementCancelled;
         public event Action OnPlacementsLoaded;
@@ -47,6 +51,8 @@ namespace Khuthon.InGame
         private void Awake()
         {
             _camera = Camera.main;
+            _audioSource = GetComponent<AudioSource>();
+            if (_audioSource == null) _audioSource = gameObject.AddComponent<AudioSource>();
         }
 
         private void Update()
@@ -173,6 +179,12 @@ namespace Khuthon.InGame
                             Debug.Log($"[Housing] Firebase 저장 완료: {key}");
                         }
                     });
+            }
+
+            // 배치 완료 효과음 재생
+            if (placementConfirmSFX != null && _audioSource != null)
+            {
+                _audioSource.PlayOneShot(placementConfirmSFX);
             }
 
             OnObjectPlaced?.Invoke(_previewObject, finalPos);

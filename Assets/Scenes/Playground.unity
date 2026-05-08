@@ -194,6 +194,7 @@ MonoBehaviour:
   gridSize: 1
   saveToFirebase: 1
   userId: player_001
+  placementConfirmSFX: {fileID: 8300000, guid: ec1e9b2b806f3cb469d8cd137c0ac537, type: 3}
 --- !u!114 &450390251
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -211,6 +212,7 @@ MonoBehaviour:
   useLocalTripoSR: 1
   localTripoSR: {fileID: 450390257}
   localInputSavePath: Assets/TripoSR/input_runtime.png
+  generationReadySFX: {fileID: 8300000, guid: f6c46c2ca4f624aacabaa487bb4ed6e4, type: 3}
   useDummyOnStart: 0
   dummyImageUrl: https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/PNG_transparency_demonstration_1.png/280px-PNG_transparency_demonstration_1.png
   dummyGlbUrl: https://github.com/KhronosGroup/glTF-Sample-Assets/raw/main/Models/Box/glTF-Binary/Box.glb
@@ -728,9 +730,9 @@ MonoBehaviour:
   objectLayer:
     serializedVersion: 2
     m_Bits: 1
-  interactDistance: 2
   uiDocument: {fileID: 1406813519}
   recommendPopupAsset: {fileID: 9197481963319205126, guid: 3a47aceeb0265934196dda28a5cf4611, type: 3}
+  recommendSFX: {fileID: 8300000, guid: 5a7bac5bd056d8e43bb9a1c5077f4cce, type: 3}
 --- !u!1 &661251660
 GameObject:
   m_ObjectHideFlags: 0
@@ -1539,7 +1541,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Khuthon.InGame.SearchInputUI
   uiDocument: {fileID: 1240813205}
   playerController: {fileID: 663095374}
-  toggleKey: 116
 --- !u!1 &1322123209
 GameObject:
   m_ObjectHideFlags: 0

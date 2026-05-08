@@ -24,7 +24,9 @@ namespace Khuthon
 
         [Header("참조")]
         [SerializeField] private Camera portalCamera; // 포탈 진입 시 활성화할 카메라 (선택 사항)
+        [SerializeField] private AudioClip portalEntrySFX; // 포탈 진입 시 효과음
         
+        private AudioSource _audioSource;
         private PlayerController _customPlayerController;
         private ThirdPersonController _starterThirdPersonController;
         private StarterAssetsInputs _starterInputs;
@@ -39,6 +41,9 @@ namespace Khuthon
         {
             if (portalCamera != null) portalCamera.gameObject.SetActive(false);
             _mainCamera = Camera.main;
+            
+            _audioSource = GetComponent<AudioSource>();
+            if (_audioSource == null) _audioSource = gameObject.AddComponent<AudioSource>();
         }
 
         private void OnTriggerEnter(Collider other)
@@ -78,6 +83,12 @@ namespace Khuthon
                     _cinemachineBrain.enabled = false;
                     Debug.Log("[Portal] CinemachineBrain 비활성화됨.");
                 }
+            }
+
+            // 효과음 재생
+            if (portalEntrySFX != null && _audioSource != null)
+            {
+                _audioSource.PlayOneShot(portalEntrySFX);
             }
 
             if (_customPlayerController != null) _customPlayerController.MovementLocked = true;
