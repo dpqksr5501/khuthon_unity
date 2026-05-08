@@ -1,0 +1,19 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project:/Assets/UI/ImageSelection.uss" />
+    <ui:VisualElement name="root" class="bg-overlay">
+        <ui:VisualElement name="panel" class="glass-panel wide-panel">
+            <ui:Label text="어떤 순간을 소환할까요?" class="title-text" />
+            
+            <ui:ScrollView name="image-scroll" class="image-grid-scroll">
+                <ui:VisualElement name="image-grid" class="image-grid">
+                    <!-- Slots will be generated dynamically -->
+                </ui:VisualElement>
+            </ui:ScrollView>
+
+            <ui:VisualElement class="button-row">
+                <ui:Button text="이것으로 소환" name="confirm-button" class="btn btn-primary" />
+                <ui:Button text="다시 검색" name="cancel-button" class="btn btn-secondary" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
