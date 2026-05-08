@@ -1,11 +1,11 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/TitleScreen.uss?fileID=7433441132597879392&amp;guid=d4389276c3b39da47b467992e9c8cc82&amp;type=3#TitleScreen"/>
-    <ui:VisualElement class="screen-container" style="border-bottom-width: 299px;">
-        <ui:Label text="TIME LAND" class="title-label" style="width: 1076px; height: 10px; -unity-font-definition: url(&quot;project://database/Assets/Fonts/GmarketSansTTF/GmarketSansTTFLight.ttf?fileID=12800000&amp;guid=ea22eba667bc72142877b10b77202d14&amp;type=3#GmarketSansTTFLight&quot;); -unity-font-style: normal;"/>
-        <ui:VisualElement class="menu-container">
-            <ui:Button name="play-button" text="PLAY" class="menu-button"/>
-            <ui:Button name="settings-button" text="SETTINGS" class="menu-button"/>
-            <ui:Button name="exit-button" text="EXIT" class="menu-button"/>
+    <ui:VisualElement name="VisualElement" class="screen-container" style="border-bottom-width: 299px; align-items: flex-end;">
+        <ui:VisualElement name="title-logo" class="title-logo" style="width: 2218px; height: 469px; border-right-width: 100px; align-self: center; align-items: center; justify-content: space-between; flex-direction: column;"/>
+        <ui:VisualElement class="menu-container" style="align-items: flex-start; width: 1406px; border-right-width: 100px; align-self: flex-start; border-left-width: 300px; border-top-width: 100px;">
+            <ui:Button name="play-button" text="PLAY" class="menu-button" style="font-size: 40px;"/>
+            <ui:Button name="exit-button" text="EXIT" class="menu-button" style="font-size: 40px;"/>
+            <ui:Button name="settings-button" text="SETTINGS" class="menu-button" style="font-size: 40px;"/>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
