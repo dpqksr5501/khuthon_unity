@@ -46,13 +46,13 @@ namespace Khuthon
         private void Awake()
         {
             // 자동 연결 (씬에 하나씩만 있는 경우)
-            if (googleSearcher == null) googleSearcher = FindObjectOfType<GoogleImageSearcher>();
-            if (pipelineManager == null) pipelineManager = FindObjectOfType<Model3DPipelineManager>();
-            if (searchInputUI == null) searchInputUI = FindObjectOfType<SearchInputUI>();
-            if (imageSelectionUI == null) imageSelectionUI = FindObjectOfType<ImageSelectionUI>();
-            if (objectDetailsUI == null) objectDetailsUI = FindObjectOfType<ObjectDetailsUI>();
-            if (housingSystem == null) housingSystem = FindObjectOfType<HousingPlacementSystem>();
-            if (playerController == null) playerController = FindObjectOfType<PlayerController>();
+            if (googleSearcher == null) googleSearcher = FindAnyObjectByType<GoogleImageSearcher>();
+            if (pipelineManager == null) pipelineManager = FindAnyObjectByType<Model3DPipelineManager>();
+            if (searchInputUI == null) searchInputUI = FindAnyObjectByType<SearchInputUI>();
+            if (imageSelectionUI == null) imageSelectionUI = FindAnyObjectByType<ImageSelectionUI>();
+            if (objectDetailsUI == null) objectDetailsUI = FindAnyObjectByType<ObjectDetailsUI>();
+            if (housingSystem == null) housingSystem = FindAnyObjectByType<HousingPlacementSystem>();
+            if (playerController == null) playerController = FindAnyObjectByType<PlayerController>();
         }
 
         private void Start()
@@ -61,7 +61,10 @@ namespace Khuthon
 
             // 1) 검색어 입력 완료 → 이미지 검색
             if (searchInputUI != null)
+            {
                 searchInputUI.OnSearchSubmit += OnSearchSubmitted;
+                searchInputUI.OnCancel += RestoreGameInput; // 취소 시 입력 복구
+            }
 
             // 2) 이미지 검색 완료 → 선택 UI 표시
             if (googleSearcher != null)
@@ -74,7 +77,10 @@ namespace Khuthon
             if (imageSelectionUI != null)
             {
                 imageSelectionUI.OnImageConfirmed += OnImageConfirmed;
-                imageSelectionUI.OnCancelled += () => SetStatus("선택 취소됨");
+                imageSelectionUI.OnCancelled += () => {
+                    SetStatus("선택 취소됨");
+                    RestoreGameInput(); // 취소 시 입력 복구
+                };
             }
 
             // 3.5) 상세 정보 입력 확인
@@ -83,7 +89,7 @@ namespace Khuthon
                 objectDetailsUI.OnConfirmed += OnDetailsConfirmed;
                 objectDetailsUI.OnCanceled += () => {
                     objectDetailsUI.Hide();
-                    imageSelectionUI?.Show(null); // 다시 선택창 (캐시된 URL 있을 경우 대비)
+                    imageSelectionUI?.Show(null); // 다시 선택창으로 (커서는 유지됨)
                 };
             }
 
@@ -158,6 +164,24 @@ namespace Khuthon
         {
             Debug.Log($"[GameOrchestrator] {message}");
             if (statusText != null) statusText.text = message;
+        }
+
+        private void RestoreGameInput()
+        {
+            if (playerController != null) playerController.MovementLocked = false;
+            
+            var playerInput = FindAnyObjectByType<UnityEngine.InputSystem.PlayerInput>();
+            if (playerInput != null) playerInput.enabled = true;
+
+            var starterInputs = FindAnyObjectByType<StarterAssets.StarterAssetsInputs>();
+            if (starterInputs != null)
+            {
+                starterInputs.cursorLocked = true;
+                starterInputs.cursorInputForLook = true;
+            }
+            UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+            UnityEngine.Cursor.visible = false;
+            Debug.Log("[GameOrchestrator] 게임 입력 및 커서 복구 완료");
         }
     }
 }

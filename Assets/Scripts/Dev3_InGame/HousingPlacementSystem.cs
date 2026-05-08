@@ -82,7 +82,7 @@ namespace Khuthon.InGame
 
             IsPlacingObject = true;
 
-            var starterInputs = FindObjectOfType<StarterAssets.StarterAssetsInputs>();
+            var starterInputs = FindAnyObjectByType<StarterAssets.StarterAssetsInputs>();
             if (starterInputs != null)
             {
                 starterInputs.cursorLocked = false;
@@ -99,7 +99,7 @@ namespace Khuthon.InGame
         {
             IsPlacingObject = false;
 
-            var starterInputs = FindObjectOfType<StarterAssets.StarterAssetsInputs>();
+            var starterInputs = FindAnyObjectByType<StarterAssets.StarterAssetsInputs>();
             if (starterInputs != null)
             {
                 starterInputs.cursorLocked = true;

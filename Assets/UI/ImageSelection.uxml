@@ -1,5 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project:/Assets/UI/ImageSelection.uss" />
+    <Style src="project:/Assets/UI/GlobalStyles.uss" />
     <ui:VisualElement name="root" class="bg-overlay">
         <ui:VisualElement name="panel" class="glass-panel wide-panel">
             <ui:Label text="어떤 순간을 소환할까요?" class="title-text" />

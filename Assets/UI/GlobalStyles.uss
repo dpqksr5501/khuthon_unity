@@ -1,0 +1,9 @@
+* {
+    -unity-font: url('project:/Assets/Fonts/GmarketSansTTF/GmarketSansTTFLight.ttf');
+    -unity-font-definition: initial;
+}
+
+.unity-text-element {
+    -unity-font: url('project:/Assets/Fonts/GmarketSansTTF/GmarketSansTTFLight.ttf');
+    -unity-font-definition: initial;
+}

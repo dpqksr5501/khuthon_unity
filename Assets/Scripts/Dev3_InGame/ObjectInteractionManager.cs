@@ -14,7 +14,6 @@ namespace Khuthon
     {
         [Header("상호작용 설정")]
         [SerializeField] private LayerMask objectLayer;
-        [SerializeField] private float interactDistance = 4f;
 
         [Header("UI Toolkit 설정")]
         [SerializeField] private UIDocument uiDocument;
@@ -22,7 +21,9 @@ namespace Khuthon
         
         private VisualElement _root;
         private VisualElement _recommendPopup;
+        private Label _yearLabel;
         private Label _titleLabel;
+        private Label _descriptionLabel;
         private Label _countLabel;
         
         private GameObject _focusedObject;
@@ -131,6 +132,10 @@ namespace Khuthon
         {
             if (_focusedHandle == null) return;
 
+            // 현재 UI 포커스가 입력창에 있다면 G 키 입력 무시
+            var focusedElement = _root?.panel?.focusController?.focusedElement;
+            if (focusedElement != null && (focusedElement is TextField || focusedElement.GetType().Name.Contains("TextInput"))) return;
+
             // 'G' 키 감지
             if (Keyboard.current != null && Keyboard.current.gKey.wasPressedThisFrame)
             {
@@ -160,7 +165,9 @@ namespace Khuthon
                 _recommendPopup.style.height = Length.Percent(100);
                 _recommendPopup.style.position = Position.Absolute;
 
+                _yearLabel = _recommendPopup.Q<Label>("year-label");
                 _titleLabel = _recommendPopup.Q<Label>("title-label");
+                _descriptionLabel = _recommendPopup.Q<Label>("description-label");
                 _countLabel = _recommendPopup.Q<Label>("count-label");
                 _root.Add(_recommendPopup);
                 
@@ -223,8 +230,10 @@ namespace Khuthon
             FirebaseManager.Instance.ReadObject<PlacedObjectRecord>(path, (record, ok) => {
                 if (ok)
                 {
-                    if (_titleLabel != null) _titleLabel.text = record.objectName;
-                    if (_countLabel != null) _countLabel.text = $"추천 수: {record.recommendCount}";
+                    if (_yearLabel != null) _yearLabel.text = $"{record.period}년";
+                    if (_titleLabel != null) _titleLabel.text = $"{{ {record.objectName} }}";
+                    if (_descriptionLabel != null) _descriptionLabel.text = record.description;
+                    if (_countLabel != null) _countLabel.text = $"공감수 | {record.recommendCount}";
                     handle.UpdateScale(record.recommendCount);
                 }
             });
@@ -243,7 +252,7 @@ namespace Khuthon
                         if (success)
                         {
                             Debug.Log($"[Interaction] 추천 완료! 현재 추천 수: {record.recommendCount}");
-                            if (_countLabel != null) _countLabel.text = $"추천 수: {record.recommendCount}";
+                            if (_countLabel != null) _countLabel.text = $"공감수 | {record.recommendCount}";
                             handle.UpdateScale(record.recommendCount); // 크기 즉시 반영
                         }
                     });

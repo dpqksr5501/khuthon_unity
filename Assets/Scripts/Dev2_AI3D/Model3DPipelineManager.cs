@@ -42,9 +42,9 @@ namespace Khuthon.AI3D
         private void Awake()
         {
             // 자동 컴포넌트 연결
-            if (tripo3DClient == null) tripo3DClient = FindObjectOfType<Tripo3DClient>();
-            if (glbLoader == null) glbLoader = FindObjectOfType<GlbModelLoader>();
-            if (localTripoSR == null) localTripoSR = FindObjectOfType<TripoSRForUnity>();
+            if (tripo3DClient == null) tripo3DClient = FindAnyObjectByType<Tripo3DClient>();
+            if (glbLoader == null) glbLoader = FindAnyObjectByType<GlbModelLoader>();
+            if (localTripoSR == null) localTripoSR = FindAnyObjectByType<TripoSRForUnity>();
 
             if (glbLoader != null)
             {
