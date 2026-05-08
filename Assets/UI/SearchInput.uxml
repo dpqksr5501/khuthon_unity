@@ -1,15 +1,16 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/SearchInput.uss?fileID=7433441132597879392&amp;guid=d7ae8c0632d023640ad1020303cf06a4&amp;type=3#SearchInput"/>
+    <Style src="project://database/Assets/UI/GlobalStyles.uss"/>
     <ui:VisualElement name="root" class="bg-overlay">
         <ui:VisualElement name="panel" class="glass-panel">
             <ui:Label text="◊ 시대의 조각 찾기 ◊" name="title" class="title-text"/>
             <ui:VisualElement class="input-row">
-                <ui:DropdownField label="연도" name="year-dropdown" class="dropdown" style="width: 382px; color: rgb(255, 255, 255);"/>
+                <ui:DropdownField label="연도" name="year-dropdown" class="dropdown" style="width: 498px; color: rgb(255, 255, 255); font-size: 30px;"/>
             </ui:VisualElement>
             <ui:VisualElement class="input-row">
-                <ui:DropdownField label="카테고리" name="category-dropdown" class="dropdown" style="width: 382px; color: rgb(255, 255, 255);"/>
+                <ui:DropdownField label="카테고리" name="category-dropdown" class="dropdown" style="width: 499px; color: rgb(255, 255, 255); font-size: 30px;"/>
             </ui:VisualElement>
-            <ui:TextField label="검색어" name="search-field" placeholder-text="무엇을 소환할까요?" class="text-field" style="color: rgb(255, 255, 255);"/>
+            <ui:TextField label="검색어" name="search-field" placeholder-text="무엇을 소환할까요?" class="text-field" style="color: rgb(255, 255, 255); font-size: 30px;"/>
             <ui:VisualElement class="button-row" style="border-top-width: 16px;">
                 <ui:Button text="소환하기" name="submit-button" class="btn btn-primary"/>
                 <ui:Button text="취소" name="cancel-button" class="btn btn-secondary"/>

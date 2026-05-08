@@ -13,7 +13,6 @@ namespace Khuthon.InGame
         [Header("UI Toolkit 설정")]
         [SerializeField] private UIDocument uiDocument;
         [SerializeField] private PlayerController playerController;
-        [SerializeField] private KeyCode toggleKey = KeyCode.T;
 
         // UI 요소
         private VisualElement _root;
@@ -24,12 +23,13 @@ namespace Khuthon.InGame
         private Button _cancelButton;
 
         public event Action<string, string, string> OnSearchSubmit;
-        public bool IsOpen { get; private set; }
+        public event Action OnCancel;
+        public bool IsOpen { get { return _root != null && _root.style.display == DisplayStyle.Flex; } }
 
         private void Awake()
         {
             if (uiDocument == null) uiDocument = GetComponent<UIDocument>();
-            if (playerController == null) playerController = FindObjectOfType<PlayerController>();
+            if (playerController == null) playerController = FindAnyObjectByType<PlayerController>();
 
             if (uiDocument == null || uiDocument.visualTreeAsset == null)
             {
@@ -63,16 +63,24 @@ namespace Khuthon.InGame
 
             // 이벤트 바인딩
             if (_submitButton != null) _submitButton.clicked += Submit;
-            if (_cancelButton != null) _cancelButton.clicked += Close;
+            if (_cancelButton != null) _cancelButton.clicked += () => {
+                OnCancel?.Invoke();
+                Close();
+            };
 
             SetPanelVisible(false);
         }
 
         private void Update()
         {
-            // TextField가 포커스된 상태라면 단축키 입력을 막음
-            if (_searchField != null && _searchField.focusController.focusedElement == _searchField)
-                return;
+            // 현재 화면에 어떤 입력창(TextField)이라도 포커스가 가 있는지 확인 (Global Focus Check)
+            var allDocs = FindObjectsByType<UIDocument>(FindObjectsInactive.Exclude);
+            foreach (var doc in allDocs)
+            {
+                var focused = doc.rootVisualElement?.panel?.focusController?.focusedElement;
+                if (focused != null && (focused is TextField || focused.GetType().Name.Contains("TextInput"))) 
+                    return; // 어떤 입력창이든 활성화되어 있다면 단축키 무시
+            }
 
             // 새 Input System 방식 (Keyboard.current 사용)
             if (UnityEngine.InputSystem.Keyboard.current != null && 
@@ -85,13 +93,21 @@ namespace Khuthon.InGame
         public void Open()
         {
             SetPanelVisible(true);
+            
+            // 1. 모든 게임 입력 시스템 정지
+            var playerInput = FindAnyObjectByType<UnityEngine.InputSystem.PlayerInput>();
+            if (playerInput != null) playerInput.enabled = false;
+
             if (playerController != null)
                 playerController.MovementLocked = true;
 
-            // StarterAssets 가 있다면 커서 잠금 해제
-            var starterInputs = FindObjectOfType<StarterAssets.StarterAssetsInputs>();
+            // 2. StarterAssets 입력 초기화
+            var starterInputs = FindAnyObjectByType<StarterAssets.StarterAssetsInputs>();
             if (starterInputs != null)
             {
+                starterInputs.move = Vector2.zero;
+                starterInputs.jump = false;
+                starterInputs.sprint = false;
                 starterInputs.cursorLocked = false;
                 starterInputs.cursorInputForLook = false;
             }
@@ -103,19 +119,7 @@ namespace Khuthon.InGame
         public void Close()
         {
             SetPanelVisible(false);
-            if (playerController != null)
-                playerController.MovementLocked = false;
-
-            // StarterAssets 복구
-            var starterInputs = FindObjectOfType<StarterAssets.StarterAssetsInputs>();
-            if (starterInputs != null)
-            {
-                starterInputs.cursorLocked = true;
-                starterInputs.cursorInputForLook = true;
-            }
-
-            UnityEngine.Cursor.lockState = CursorLockMode.Locked;
-            UnityEngine.Cursor.visible = false;
+            // 커서 및 입력 제어는 GameOrchestrator에서 일괄 관리하도록 위임합니다.
         }
 
         public void Toggle()
@@ -139,7 +143,6 @@ namespace Khuthon.InGame
 
         private void SetPanelVisible(bool visible)
         {
-            IsOpen = visible;
             _root.style.display = visible ? DisplayStyle.Flex : DisplayStyle.None;
         }
     }

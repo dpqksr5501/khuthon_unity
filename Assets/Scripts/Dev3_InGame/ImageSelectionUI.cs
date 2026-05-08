@@ -167,12 +167,17 @@ namespace Khuthon.InGame
             SetVisible(false);
         }
 
+        public void Hide()
+        {
+            SetVisible(false);
+        }
+
         public void SetVisible(bool visible)
         {
             if (_root != null)
                 _root.style.display = visible ? DisplayStyle.Flex : DisplayStyle.None;
             
-            var starterInputs = FindObjectOfType<StarterAssets.StarterAssetsInputs>();
+            var starterInputs = FindAnyObjectByType<StarterAssets.StarterAssetsInputs>();
 
             if (visible)
             {
@@ -186,13 +191,7 @@ namespace Khuthon.InGame
             }
             else
             {
-                if (starterInputs != null)
-                {
-                    starterInputs.cursorLocked = true;
-                    starterInputs.cursorInputForLook = true;
-                }
-                UnityEngine.Cursor.lockState = CursorLockMode.Locked;
-                UnityEngine.Cursor.visible = false;
+                // UI만 숨기고 커서 상태는 건드리지 않음 (다음 UI를 위해)
             }
         }
 
