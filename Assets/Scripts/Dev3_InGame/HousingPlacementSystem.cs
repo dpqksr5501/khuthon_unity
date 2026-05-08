@@ -90,10 +90,36 @@ namespace Khuthon.InGame
             ApplyPreviewMaterial(_previewObject, validColor);
 
             IsPlacingObject = true;
+
+            var starterInputs = FindObjectOfType<StarterAssets.StarterAssetsInputs>();
+            if (starterInputs != null)
+            {
+                starterInputs.cursorLocked = false;
+                starterInputs.cursorInputForLook = false;
+            }
+
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
 
             Debug.Log($"[Housing] 배치 모드 시작 (Period: {period})");
+        }
+
+        /// <summary>
+        /// 배치 모드 종료 (확정 또는 취소)
+        /// </summary>
+        private void EndPlacement()
+        {
+            IsPlacingObject = false;
+
+            var starterInputs = FindObjectOfType<StarterAssets.StarterAssetsInputs>();
+            if (starterInputs != null)
+            {
+                starterInputs.cursorLocked = true;
+                starterInputs.cursorInputForLook = true;
+            }
+
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
 
         private void UpdatePreviewPosition()
@@ -170,11 +196,8 @@ namespace Khuthon.InGame
             _previewObject = null;
             _pendingModelUrl = "";
             _currentPeriod = "";
-            IsPlacingObject = false;
-
-            // 커서 재잠금 (플레이어 컨트롤러가 처리하도록)
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+            
+            EndPlacement();
         }
 
         private void CancelPlacement()
@@ -184,12 +207,10 @@ namespace Khuthon.InGame
                 Destroy(_previewObject);
                 _previewObject = null;
             }
-            IsPlacingObject = false;
             _pendingModelUrl = "";
             OnPlacementCancelled?.Invoke();
 
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+            EndPlacement();
 
             Debug.Log("[Housing] 배치 취소");
         }

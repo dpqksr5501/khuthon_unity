@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.InputSystem;
 using Khuthon.Backend;
 using Khuthon.InGame;
 using System.Collections.Generic;
@@ -7,13 +8,13 @@ using System.Collections.Generic;
 namespace Khuthon
 {
     /// <summary>
-    /// UI Toolkit(UXML) 기반 오브젝트 상호작용 매니저.
+    /// 플레이어가 바라보는 오브젝트를 감지하고 'G' 키로 추천 기능을 수행합니다.
     /// </summary>
     public class ObjectInteractionManager : MonoBehaviour
     {
         [Header("상호작용 설정")]
         [SerializeField] private LayerMask objectLayer;
-        [SerializeField] private float interactDistance = 10f;
+        [SerializeField] private float interactDistance = 4f;
 
         [Header("UI Toolkit 설정")]
         [SerializeField] private UIDocument uiDocument;
@@ -21,9 +22,10 @@ namespace Khuthon
         
         private VisualElement _root;
         private VisualElement _recommendPopup;
-        private Button _recommendButton;
+        private Label _countLabel;
         
-        private GameObject _selectedObject;
+        private GameObject _focusedObject;
+        private PlacedObjectHandle _focusedHandle;
         private Camera _mainCamera;
 
         private void Awake()
@@ -34,110 +36,141 @@ namespace Khuthon
             if (uiDocument != null)
             {
                 _root = uiDocument.rootVisualElement;
+                // UIDocument에 기본적으로 붙어있는 UI가 있다면 제거 (인스펙터에서 Source Asset이 설정된 경우 대비)
+                _root.Clear();
             }
         }
 
         private void Update()
         {
-            // 좌클릭 감지
-            if (Input.GetMouseButtonDown(0))
-            {
-                HandleClick();
-            }
+            HandleDetection();
+            HandleInput();
 
-            // UI 위치 업데이트 (오브젝트 따라다니기)
-            if (_recommendPopup != null && _selectedObject != null)
+            if (_recommendPopup != null && _focusedObject != null)
             {
                 UpdateUIPosition();
             }
         }
 
-        private void HandleClick()
+        private void HandleDetection()
         {
-            // UI를 클릭한 경우 무시 (UI Toolkit 요소 위에 있는지 확인)
-            if (_root != null && _root.panel != null)
-            {
-                // UI Toolkit 좌표계는 Y축이 반대이므로 변환 필요할 수 있으나 Pick(Input.mousePosition)은 내부적으로 처리함
-                var picked = _root.panel.Pick(Input.mousePosition);
-                if (picked != null && picked != _root) return;
-            }
+            // 플레이어 주변 일정 거리(interactDistance) 내의 오브젝트 탐색
+            Collider[] colliders = Physics.OverlapSphere(transform.position, interactDistance, objectLayer);
+            
+            PlacedObjectHandle closestHandle = null;
+            float minDistance = float.MaxValue;
 
-            Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hit, interactDistance, objectLayer))
+            foreach (var col in colliders)
             {
-                var handle = hit.collider.GetComponentInParent<PlacedObjectHandle>();
+                var handle = col.GetComponentInParent<PlacedObjectHandle>();
                 if (handle != null)
                 {
-                    SelectObject(handle.gameObject);
+                    float dist = Vector3.Distance(transform.position, handle.transform.position);
+                    if (dist < minDistance)
+                    {
+                        minDistance = dist;
+                        closestHandle = handle;
+                    }
                 }
-                else
+            }
+
+            // 가장 가까운 오브젝트가 있다면 포커스
+            if (closestHandle != null)
+            {
+                if (_focusedObject != closestHandle.gameObject)
                 {
-                    DeselectObject();
+                    FocusObject(closestHandle);
                 }
             }
             else
             {
-                DeselectObject();
+                // 주변에 아무것도 없을 때
+                if (_focusedObject != null)
+                {
+                    UnfocusObject();
+                }
             }
         }
 
-        private void SelectObject(GameObject obj)
+        private void HandleInput()
         {
-            if (_selectedObject == obj) return;
+            if (_focusedHandle == null) return;
+
+            // 'G' 키 감지
+            if (Keyboard.current != null && Keyboard.current.gKey.wasPressedThisFrame)
+            {
+                RecommendObject(_focusedHandle);
+            }
+        }
+
+        private void FocusObject(PlacedObjectHandle handle)
+        {
+            _focusedObject = handle.gameObject;
+            _focusedHandle = handle;
             
-            DeselectObject();
-            _selectedObject = obj;
-            
-            // 추천 버튼 UI 생성 (UXML 인스턴스화)
+            // UI 생성
             if (recommendPopupAsset != null && _root != null)
             {
                 _recommendPopup = recommendPopupAsset.Instantiate();
-                _recommendButton = _recommendPopup.Q<Button>("recommend-button");
-                
-                var handle = obj.GetComponent<PlacedObjectHandle>();
-                if (_recommendButton != null && handle != null)
-                {
-                    _recommendButton.clicked += () => RecommendObject(handle);
-                }
-                
+                _countLabel = _recommendPopup.Q<Label>("count-label");
                 _root.Add(_recommendPopup);
+                
+                RefreshRecommendCount(handle);
             }
 
-            Debug.Log($"[Interaction] 오브젝트 선택됨: {obj.name}");
+            // TODO: 아웃라인 효과 추가 (Material 변경 등)
+            SetHighlight(handle.gameObject, true);
         }
 
-        private void DeselectObject()
+        private void UnfocusObject()
         {
             if (_recommendPopup != null)
             {
                 _recommendPopup.RemoveFromHierarchy();
                 _recommendPopup = null;
             }
-            _selectedObject = null;
+
+            if (_focusedObject != null)
+            {
+                SetHighlight(_focusedObject, false);
+            }
+
+            _focusedObject = null;
+            _focusedHandle = null;
         }
 
         private void UpdateUIPosition()
         {
-            // 오브젝트의 월드 좌표를 패널(스크린) 좌표로 변환
-            Vector3 worldPos = _selectedObject.transform.position + Vector3.up * 1.5f;
+            if (_root == null || _root.panel == null || _mainCamera == null) return;
+
+            // 오브젝트 머리 위에 UI 배치
+            Vector3 worldPos = _focusedObject.transform.position + Vector3.up * 1.2f;
             Vector2 panelPos = RuntimePanelUtils.CameraTransformWorldToPanel(_root.panel, worldPos, _mainCamera);
             
-            // UI 위치 설정 (중앙 정렬을 위해 너비/높이의 절반만큼 보정 가능)
-            _recommendPopup.style.left = panelPos.x - 60; // width/2
-            _recommendPopup.style.top = panelPos.y - 20;  // height/2
+            _recommendPopup.style.left = panelPos.x - 90; // width/2
+            _recommendPopup.style.top = panelPos.y - 60;  // height/2
             
-            // 카메라 뒤에 있는 경우 숨김 처리
+            // 카메라 뒤 체크
             Vector3 screenPos = _mainCamera.WorldToViewportPoint(worldPos);
             _recommendPopup.style.display = (screenPos.z > 0) ? DisplayStyle.Flex : DisplayStyle.None;
         }
 
+        private void RefreshRecommendCount(PlacedObjectHandle handle)
+        {
+            if (string.IsNullOrEmpty(handle.FirebaseKey)) return;
+
+            string path = $"placements/{handle.UserId}/{handle.FirebaseKey}";
+            FirebaseManager.Instance.ReadObject<PlacedObjectRecord>(path, (record, ok) => {
+                if (ok && _countLabel != null)
+                {
+                    _countLabel.text = $"추천 수: {record.recommendCount}";
+                }
+            });
+        }
+
         private void RecommendObject(PlacedObjectHandle handle)
         {
-            if (string.IsNullOrEmpty(handle.FirebaseKey))
-            {
-                Debug.LogWarning("[Interaction] Firebase Key가 없어 추천할 수 없습니다.");
-                return;
-            }
+            if (string.IsNullOrEmpty(handle.FirebaseKey)) return;
 
             string path = $"placements/{handle.UserId}/{handle.FirebaseKey}";
             FirebaseManager.Instance.ReadObject<PlacedObjectRecord>(path, (record, ok) => {
@@ -145,10 +178,29 @@ namespace Khuthon
                 {
                     record.recommendCount++;
                     FirebaseManager.Instance.WriteObject(path, record, (success) => {
-                        if (success) Debug.Log($"[Interaction] 추천 완료! 현재 추천 수: {record.recommendCount}");
+                        if (success)
+                        {
+                            Debug.Log($"[Interaction] 추천 완료! 현재 추천 수: {record.recommendCount}");
+                            if (_countLabel != null) _countLabel.text = $"추천 수: {record.recommendCount}";
+                        }
                     });
                 }
             });
+        }
+
+        private void SetHighlight(GameObject obj, bool highlight)
+        {
+            // 간단한 하이라이트 효과: Material 색상 조절
+            foreach (var renderer in obj.GetComponentsInChildren<Renderer>())
+            {
+                foreach (var mat in renderer.materials)
+                {
+                    if (highlight)
+                        mat.EnableKeyword("_EMISSION");
+                    else
+                        mat.DisableKeyword("_EMISSION");
+                }
+            }
         }
     }
 }
