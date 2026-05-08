@@ -1,0 +1,27 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project:/Assets/UI/SearchInput.uss" />
+    <ui:VisualElement name="root" class="bg-overlay">
+        <ui:VisualElement name="panel" class="glass-panel">
+            <ui:Label text="작품의 상세 정보를 입력해 주세요" class="title-text" />
+            
+            <ui:VisualElement class="input-row" style="flex-direction: column; align-items: stretch;">
+                <ui:Label text="작품 이름" style="color: rgba(255, 255, 255, 0.6); font-size: 18px; margin-bottom: 5px; -unity-text-align: middle-left;" />
+                <ui:TextField name="name-field" placeholder-text="작품의 이름을 입력하세요" class="text-field" style="margin-bottom: 20px;" />
+                
+                <ui:Label text="작품 설명" style="color: rgba(255, 255, 255, 0.6); font-size: 18px; margin-bottom: 5px; -unity-text-align: middle-left;" />
+                <ui:TextField name="desc-field" multiline="true" placeholder-text="이 작품은 어떤 이야기를 담고 있나요?" class="text-field" style="height: 150px; margin-bottom: 20px;" />
+                
+                <ui:Label text="배경음 (BGM)" style="color: rgba(255, 255, 255, 0.6); font-size: 18px; margin-bottom: 5px; -unity-text-align: middle-left;" />
+                <ui:VisualElement style="flex-direction: row; align-items: center; margin-bottom: 30px;">
+                    <ui:Button text="파일 선택 (.mp3)" name="bgm-button" class="btn btn-secondary" style="flex-grow: 0; width: 200px; height: 50px; margin: 0; font-size: 16px;" />
+                    <ui:Label text="선택된 파일 없음" name="bgm-label" style="color: rgba(255, 255, 255, 0.4); font-size: 14px; margin-left: 15px; flex-grow: 1; -unity-text-align: middle-left;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+            <ui:VisualElement class="button-row">
+                <ui:Button text="소환 절차 시작" name="confirm-button" class="btn btn-primary" />
+                <ui:Button text="취소" name="cancel-button" class="btn btn-secondary" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

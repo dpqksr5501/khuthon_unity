@@ -62,6 +62,7 @@ public class TripoSRForUnity : MonoBehaviour
 
     private Process pythonProcess;
     private bool isProcessRunning = false;
+    public string customOutputName = ""; // 추가: 외부에서 저장 파일명을 지정할 수 있게 함
 
     public static event Action OnPythonProcessEnded;
     public static event Action<GameObject> OnModelInstantiated;
@@ -168,7 +169,11 @@ public class TripoSRForUnity : MonoBehaviour
         string modelsDirectory = "Assets/"+moveAndRenamePath;
         // 타임스탬프를 추가하여 파일 이름이 겹치지 않게 만듭니다.
         string timestamp = System.DateTime.Now.ToString("yyyyMMdd_HHmmss");
-        string newFileName = Path.GetFileNameWithoutExtension(AssetDatabase.GetAssetPath(images[0])) + "_" + timestamp + ".obj";
+        // 외부에서 지정한 이름이 있으면 사용, 없으면 기본 방식 사용
+        string newFileName = string.IsNullOrEmpty(customOutputName) ? 
+            Path.GetFileNameWithoutExtension(AssetDatabase.GetAssetPath(images[0])) + "_" + timestamp + ".obj" : 
+            customOutputName + ".obj";
+            
         string newAssetPath = Path.Combine(modelsDirectory, newFileName);
         string newPath = Path.Combine(Application.dataPath, newAssetPath.Substring("Assets/".Length));
 
@@ -178,7 +183,7 @@ public class TripoSRForUnity : MonoBehaviour
         {
             if (File.Exists(newPath)) 
             {
-                File.Delete(newPath); // 만약 존재한다면 덮어쓰기 위해 삭제
+                File.Delete(newPath); 
             }
             
             File.Move(originalPath, newPath);

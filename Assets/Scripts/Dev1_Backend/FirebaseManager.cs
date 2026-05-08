@@ -172,6 +172,8 @@ namespace Khuthon.Backend
         public string userId;
         public string period; // 예: "2024_1분기"
         public string objectName;
+        public string description; // 작품 설명 추가
+        public string bgmPath;     // BGM 파일 경로 추가
         public string modelUrl;
         public float posX, posY, posZ;
         public int recommendCount; // 추천 수 추가

@@ -9,24 +9,16 @@ namespace Khuthon.InGame
 {
     /// <summary>
     /// Raycast 기반 하우징 배치 시스템.
-    /// - 생성된 GLB 모델을 "배치 모드"로 마우스 커서 위치에 미리 보기
-    /// - 좌클릭으로 배치 확정, 우클릭 또는 ESC로 취소
-    /// - 배치된 오브젝트 Firebase에 저장 (FirebaseManager 연동)
-    /// - 배치된 오브젝트 나중에 Gizmo 클릭으로 선택/이동 가능 (간단 버전)
     /// </summary>
     public class HousingPlacementSystem : MonoBehaviour
     {
         [Header("Raycast 설정")]
-        [Tooltip("배치 가능한 레이어 마스크 (Floor, Ground 등)")]
         [SerializeField] private LayerMask placementLayerMask = ~0;
-        [Tooltip("배치 불가 레이어 (이미 배치된 오브젝트 등)")]
         [SerializeField] private LayerMask blockingLayerMask;
         [SerializeField] private float maxRayDistance = 50f;
 
         [Header("시각적 피드백")]
-        [Tooltip("배치 가능 시 색상")]
         [SerializeField] private Color validColor = new Color(0f, 1f, 0f, 0.5f);
-        [Tooltip("배치 불가 시 색상")]
         [SerializeField] private Color invalidColor = new Color(1, 0, 0, 0.5f);
 
         [Header("그리드 스냅 (옵션)")]
@@ -37,15 +29,17 @@ namespace Khuthon.InGame
         [SerializeField] private bool saveToFirebase = true;
         [SerializeField] private string userId = "player_1";
 
-        // 배치 완료 이벤트: (배치된 GameObject, 위치)
         public event Action<GameObject, Vector3> OnObjectPlaced;
         public event Action OnPlacementCancelled;
-        public event Action OnPlacementsLoaded; // 로딩 완료 이벤트 추가
+        public event Action OnPlacementsLoaded;
 
         public bool IsPlacingObject { get; private set; }
 
         private GameObject _previewObject;
         private string _pendingModelUrl;
+        private string _pendingTitle;
+        private string _pendingDescription;
+        private string _pendingBgmPath;
         private string _currentPeriod;
         private Camera _camera;
 
@@ -65,28 +59,25 @@ namespace Khuthon.InGame
 
             if (mouse == null) return;
 
-            // 좌클릭 → 배치 확정 (wasPressedThisFrame)
             if (mouse.leftButton.wasPressedThisFrame && !IsPointerOverUI())
                 ConfirmPlacement();
 
-            // 우클릭 또는 ESC → 취소
             if (mouse.rightButton.wasPressedThisFrame || 
                 (keyboard != null && keyboard[UnityEngine.InputSystem.Key.Escape].wasPressedThisFrame))
                 CancelPlacement();
         }
 
-        /// <summary>
-        /// 배치 모드 시작. 로드된 모델 오브젝트를 미리보기로 사용합니다.
-        /// </summary>
-        public void StartPlacement(GameObject modelObject, string modelUrl = "", string period = "")
+        public void StartPlacement(GameObject modelObject, string modelUrl = "", string period = "", string title = "", string desc = "", string bgm = "")
         {
             if (IsPlacingObject) CancelPlacement();
 
             _pendingModelUrl = modelUrl;
+            _pendingTitle = title;
+            _pendingDescription = desc;
+            _pendingBgmPath = bgm;
             _currentPeriod = period;
             _previewObject = modelObject;
 
-            // 반투명 미리보기 설정
             ApplyPreviewMaterial(_previewObject, validColor);
 
             IsPlacingObject = true;
@@ -104,9 +95,6 @@ namespace Khuthon.InGame
             Debug.Log($"[Housing] 배치 모드 시작 (Period: {period})");
         }
 
-        /// <summary>
-        /// 배치 모드 종료 (확정 또는 취소)
-        /// </summary>
         private void EndPlacement()
         {
             IsPlacingObject = false;
@@ -128,15 +116,12 @@ namespace Khuthon.InGame
             if (mouse == null) return;
 
             Ray ray = _camera.ScreenPointToRay(mouse.position.ReadValue());
-            bool hit = Physics.Raycast(ray, out RaycastHit hitInfo, maxRayDistance, placementLayerMask);
-
-            if (hit)
+            if (Physics.Raycast(ray, out RaycastHit hitInfo, maxRayDistance, placementLayerMask))
             {
                 Vector3 pos = hitInfo.point;
                 if (useGridSnap) pos = SnapToGrid(pos);
                 _previewObject.transform.position = pos;
 
-                // 겹침 체크
                 bool isBlocked = CheckOverlap(_previewObject);
                 ApplyPreviewMaterial(_previewObject, isBlocked ? invalidColor : validColor);
             }
@@ -147,11 +132,8 @@ namespace Khuthon.InGame
             if (_previewObject == null) return;
 
             Vector3 finalPos = _previewObject.transform.position;
-
-            // 미리보기 재질 → 실제 재질 복원
             RestoreOriginalMaterial(_previewObject);
 
-            // 물리 활성화 (만약 있다면)
             Rigidbody rb = _previewObject.GetComponentInChildren<Rigidbody>();
             if (rb != null)
             {
@@ -159,25 +141,27 @@ namespace Khuthon.InGame
                 rb.useGravity = true;
             }
 
-            // 이동/선택 가능 컴포넌트 추가
             var handle = _previewObject.AddComponent<PlacedObjectHandle>();
             handle.ModelUrl = _pendingModelUrl;
             handle.UserId = userId;
+            handle.ObjectName = _pendingTitle;
+            handle.Description = _pendingDescription;
+            handle.BgmPath = _pendingBgmPath;
 
-            Debug.Log($"[Housing] 배치 확정: {finalPos}");
-
-            // Firebase 저장
             if (saveToFirebase && FirebaseManager.Instance != null)
             {
                 var record = new PlacedObjectRecord
                 {
                     userId = userId,
                     period = _currentPeriod,
-                    objectName = _previewObject.name,
+                    objectName = _pendingTitle,
+                    description = _pendingDescription,
+                    bgmPath = _pendingBgmPath,
                     modelUrl = _pendingModelUrl,
                     posX = finalPos.x,
                     posY = finalPos.y,
                     posZ = finalPos.z,
+                    recommendCount = 0,
                     timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds()
                 };
                 FirebaseManager.Instance.PushData($"placements/{userId}", JsonUtility.ToJson(record),
@@ -185,14 +169,11 @@ namespace Khuthon.InGame
                         if (ok) {
                             handle.FirebaseKey = key;
                             Debug.Log($"[Housing] Firebase 저장 완료: {key}");
-                        } else {
-                            Debug.LogError("[Housing] Firebase 저장 실패");
                         }
                     });
             }
 
             OnObjectPlaced?.Invoke(_previewObject, finalPos);
-
             _previewObject = null;
             _pendingModelUrl = "";
             _currentPeriod = "";
@@ -209,24 +190,16 @@ namespace Khuthon.InGame
             }
             _pendingModelUrl = "";
             OnPlacementCancelled?.Invoke();
-
             EndPlacement();
-
-            Debug.Log("[Housing] 배치 취소");
         }
 
         private Vector3 SnapToGrid(Vector3 pos)
         {
-            return new Vector3(
-                Mathf.Round(pos.x / gridSize) * gridSize,
-                pos.y,
-                Mathf.Round(pos.z / gridSize) * gridSize
-            );
+            return new Vector3(Mathf.Round(pos.x / gridSize) * gridSize, pos.y, Mathf.Round(pos.z / gridSize) * gridSize);
         }
 
         private bool CheckOverlap(GameObject obj)
         {
-            // 오브젝트의 모든 콜라이더 기준 겹침 확인
             var colliders = obj.GetComponentsInChildren<Collider>();
             foreach (var col in colliders)
             {
@@ -244,8 +217,7 @@ namespace Khuthon.InGame
                 foreach (var mat in renderer.materials)
                 {
                     mat.color = color;
-                    // URP의 경우 투명 렌더링 활성화
-                    mat.SetFloat("_Surface", 1f);      // Transparent
+                    mat.SetFloat("_Surface", 1f);
                     mat.renderQueue = 3000;
                 }
             }
@@ -258,7 +230,7 @@ namespace Khuthon.InGame
                 foreach (var mat in renderer.materials)
                 {
                     mat.color = Color.white;
-                    mat.SetFloat("_Surface", 0f);      // Opaque
+                    mat.SetFloat("_Surface", 0f);
                     mat.renderQueue = -1;
                 }
             }
@@ -278,13 +250,16 @@ namespace Khuthon.InGame
             Debug.Log($"[Housing] {userId}의 배치 데이터 로딩 중...");
             FirebaseManager.Instance.ReadDictionary($"placements/{userId}", (json, ok) =>
             {
-                if (ok && !string.IsNullOrEmpty(json) && json != "null")
+                if (ok && !string.IsNullOrEmpty(json) && json != "null" && json != "{}")
                 {
-                    // Firebase Dictionary 파싱은 조금 까다로우므로 간단하게 처리
-                    // 실제 프로젝트에서는 전용 파서나 Newtonsoft.Json 권장
                     var records = ParseFirebaseDictionary(json);
                     foreach (var record in records)
                     {
+                        if (string.IsNullOrEmpty(record.modelUrl))
+                        {
+                            Debug.LogWarning($"[Housing] URL이 없는 레코드 발견(구버전 데이터), 스킵합니다. (ID: {record.firebaseKey})");
+                            continue;
+                        }
                         StartCoroutine(SpawnSavedObject(record, pipelineManager));
                     }
                     OnPlacementsLoaded?.Invoke();
@@ -294,39 +269,108 @@ namespace Khuthon.InGame
 
         private IEnumerator SpawnSavedObject(PlacedObjectRecord record, Model3DPipelineManager pipelineManager)
         {
-            // 이미 생성된 모델(.obj)이 있는지 확인하거나 새로 생성
-            // 여기서는 간단하게 PipelineManager를 통해 다시 생성하거나 로드함
             Vector3 pos = new Vector3(record.posX, record.posY, record.posZ);
-            pipelineManager.RunPipeline(record.modelUrl, pos);
             
-            // Note: PipelineManager가 생성한 오브젝트에 나중에 FirebaseKey를 넣어줘야 함
-            // 이를 위해 PipelineManager의 OnModelReady 이벤트를 잠시 구독하거나 
-            // HandleModelInstantiated에서 키를 매칭하는 로직이 필요함.
+            // 모델 생성 요청 시 콜백 등록 (isAutoPlacement = true로 설정하여 다시 배치 모드가 뜨지 않게 함)
+            pipelineManager.RunPipeline(record.modelUrl, pos, (model) => {
+                if (model != null)
+                {
+                    var handle = model.GetComponent<PlacedObjectHandle>();
+                    if (handle == null) handle = model.AddComponent<PlacedObjectHandle>();
+                    
+                    handle.FirebaseKey = record.firebaseKey;
+                    handle.UserId = record.userId;
+                    handle.ModelUrl = record.modelUrl;
+                    
+                    // 불러올 때 즉시 추천수에 맞춰 크기 조정
+                    handle.UpdateScale(record.recommendCount);
+                    
+                    Debug.Log($"[Housing] 불러온 오브젝트 설정 완료: {record.firebaseKey} (추천수: {record.recommendCount})");
+                }
+            }, true);
+            
             yield return null;
         }
 
         private List<PlacedObjectRecord> ParseFirebaseDictionary(string json)
         {
-            // 간단한 파서: 각 키별로 오브젝트 추출
             var list = new List<PlacedObjectRecord>();
-            // 정규식이나 수동 파싱 대신, FirebaseManager에서 Dictionary 지원이 필요할 수 있음
-            // 일단은 간단히 구현 (실제 환경에선 구조에 맞춰 조정 필요)
-            try {
-                // 이 부분은 Firebase 특유의 {"key":{"data"...}} 구조를 처리해야 함
-                // 여기서는 생략하고 사용자에게 안내하거나 FirebaseManager를 보강함
-            } catch {}
+            if (string.IsNullOrEmpty(json) || json == "null" || json == "{}") return list;
+
+            try 
+            {
+                // 1. 전체 문자열에서 개별 레코드들( { "ID" : { ... } } )을 찾아내기 위해 
+                // " : { " 패턴을 기준으로 분리 시도
+                int searchIndex = 0;
+                while (true)
+                {
+                    // "key":{ 를 찾음
+                    int colonIndex = json.IndexOf(":{", searchIndex);
+                    if (colonIndex == -1) break;
+
+                    // 키 추출 (따옴표 사이의 값)
+                    int keyEnd = json.LastIndexOf("\"", colonIndex - 1);
+                    int keyStart = json.LastIndexOf("\"", keyEnd - 1) + 1;
+                    string key = json.Substring(keyStart, keyEnd - keyStart);
+
+                    // 값(객체) 추출: 중괄호 쌍 맞추기
+                    int objectStart = colonIndex + 1;
+                    int braceCount = 0;
+                    int objectEnd = -1;
+
+                    for (int i = objectStart; i < json.Length; i++)
+                    {
+                        if (json[i] == '{') braceCount++;
+                        else if (json[i] == '}') braceCount--;
+
+                        if (braceCount == 0)
+                        {
+                            objectEnd = i;
+                            break;
+                        }
+                    }
+
+                    if (objectEnd != -1)
+                    {
+                        string objectJson = json.Substring(objectStart, (objectEnd - objectStart) + 1);
+                        var record = JsonUtility.FromJson<PlacedObjectRecord>(objectJson);
+                        if (record != null)
+                        {
+                            record.firebaseKey = key;
+                            list.Add(record);
+                        }
+                        searchIndex = objectEnd + 1;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            } 
+            catch (Exception ex) 
+            {
+                Debug.LogError($"[Housing] 파싱 최종 실패: {ex.Message}");
+            }
             return list;
         }
     }
 
-    /// <summary>
-    /// 배치된 오브젝트에 붙는 핸들 컴포넌트.
-    /// 추후 이동/삭제 기능 확장 가능.
-    /// </summary>
     public class PlacedObjectHandle : MonoBehaviour
     {
         public string ModelUrl { get; set; }
         public string UserId { get; set; }
         public string FirebaseKey { get; set; }
+        public string ObjectName { get; set; }
+        public string Description { get; set; }
+        public string BgmPath { get; set; }
+
+        public void UpdateScale(int count)
+        {
+            // 기본 크기 1.0에서 추천 하나당 10%씩 커짐 (제한 없음)
+            float scaleFactor = 1.0f + (count * 0.1f);
+            transform.localScale = Vector3.one * scaleFactor;
+            
+            Debug.Log($"[Housing] 오브젝트 크기 업데이트: {scaleFactor}x (추천수: {count})");
+        }
     }
 }
