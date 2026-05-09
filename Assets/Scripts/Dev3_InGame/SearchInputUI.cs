@@ -50,7 +50,9 @@ namespace Khuthon.InGame
             // 드롭다운 옵션 초기화
             if (_yearDropdown != null)
             {
-                _yearDropdown.choices = new List<string> { "2020", "2021", "2022", "2023", "2024", "2025", "2026" };
+                var years = new List<string>();
+                for (int i = 2026; i >= 2000; i--) years.Add(i.ToString());
+                _yearDropdown.choices = years;
                 _yearDropdown.value = "2024";
             }
 

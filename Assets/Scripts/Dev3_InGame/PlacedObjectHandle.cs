@@ -12,9 +12,12 @@ namespace Khuthon.InGame
     {
         [Header("데이터 설정 (인스펙터에서 수정 가능)")]
         [SerializeField] private string objectName = "새 오브젝트";
-        [SerializeField] private string description = "이 오브젝트에 대한 설명입니다.";
+        [SerializeField, TextArea(3, 5)] private string description = "이 오브젝트에 대한 설명입니다.";
         [SerializeField] private string bgmPath;
-        [SerializeField] private string period = "2024";
+        
+        [Tooltip("오브젝트가 속한 연도를 선택하세요")]
+        [Range(2000, 2026)]
+        public int period = 2024; 
 
         [Header("시스템 정보 (자동 설정됨)")]
         [SerializeField] private string modelUrl;
@@ -25,7 +28,7 @@ namespace Khuthon.InGame
         public string ObjectName { get => objectName; set => objectName = value; }
         public string Description { get => description; set => description = value; }
         public string BgmPath { get => bgmPath; set => bgmPath = value; }
-        public string Period { get => period; set => period = value; }
+        public string Period { get => period.ToString(); set => int.TryParse(value, out period); }
         public string ModelUrl { get => modelUrl; set => modelUrl = value; }
         public string UserId { get => userId; set => userId = value; }
         public string FirebaseKey { get => firebaseKey; set => firebaseKey = value; }
